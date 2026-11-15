@@ -1617,13 +1617,20 @@ function healthHints(k) {
 }
 function healthCard(k) {
   const h = day(k).health;
-  if (!h) return `<div class="card row" data-act="health" style="cursor:pointer"><div class="grow"><div style="font-weight:600">❤️ Активність і здоров’я</div><div class="tiny muted">Додай дані з Apple Watch: калорії, пульс, кроки, сон</div></div><span class="add">+ Додати</span></div>`;
+  const pasteBtn = k === todayKey() ? `<button class="btn pri full" style="margin-top:10px" data-act="h-clip">📋 Вставити з годинника</button>` : "";
+  if (!h) return `<div class="card"><div class="row" data-act="health" style="cursor:pointer"><div class="grow"><div style="font-weight:600">❤️ Активність і здоров’я</div><div class="tiny muted">Дані з Apple Watch: калорії, пульс, HRV, кроки, сон</div></div><span class="add">+ Вручну</span></div>${pasteBtn}</div>`;
   const t = targets(k);
   return `<div class="card" data-act="health" style="cursor:pointer"><div class="row between" style="margin-bottom:6px"><div style="font-weight:600">❤️ Активність і здоров’я</div><span class="muted small">змінити ›</span></div>
    ${recoveryHtml(k, true)}
    <div class="row wrap small" style="gap:12px">${Object.entries(HF).filter(([key]) => h[key] !== undefined && key !== "weight").map(([key, [ic, , u]]) => `<span>${ic} ${fmt(h[key], key === "sleep" ? 1 : 0)}${u ? " " + u : ""}</span>`).join("")}</div>
    ${t.watch ? `<div class="tiny muted" style="margin-top:6px">Норма на сьогодні враховує ${fmt(h.active * (profile().watchPct ?? 100) / 100)} з ${fmt(h.active)} активних ккал годинника (годинник завищує витрату в середньому на ~28%).</div>` : ""}
-   ${healthHints(k).map(([c, x]) => `<div class="hint ${c}">${x}</div>`).join("")}</div>`;
+   ${healthHints(k).map(([c, x]) => `<div class="hint ${c}">${x}</div>`).join("")}${pasteBtn.replace("📋 Вставити з годинника", "📋 Оновити з годинника").replace("btn pri", "btn")}</div>`;
+}
+function applyHealth(r) {
+  const k = "d-" + todayKey(), d = JSON.parse(JSON.stringify(day(todayKey())));
+  if (r.weight) { d.weight = r.weight; delete r.weight; }
+  d.health = Object.assign({}, d.health || {}, r); save(k, d); curDay = todayKey(); render();
+  toast("Дані з Apple Watch записано ✓");
 }
 function openHealth(k) {
   const h = day(k).health || {};
@@ -1638,10 +1645,10 @@ function openHealth(k) {
     <li>Додай дію «Знайти зразки здоров’я» (Find Health Samples): тип «Активна енергія», дата початку — «Сьогодні». Далі дія «Обчислити статистику» → «Сума».</li>
     <li>Так само додай «Кроки» (сума), «Пульс у спокої», «Варіабельність пульсу» і «Вага» (для них — останнє значення: сортування за датою, ліміт 1), за бажанням «Пульс» (середнє) та «Аналіз сну».</li>
     <li>Додай дію «Текст» і склади рядок: <code>active=</code>[сума енергії]<code>;steps=</code>[кроки]<code>;rhr=</code>[пульс у спокої]<code>;hrv=</code>[HRV]<code>;weight=</code>[вага]<code>;hr=</code>[пульс]<code>;sleep=</code>[сон, год]</li>
-    ${OWN ? `<li>Додай дію «Відкрити URL-адреси» з адресою <code>${esc(shortcutUrl)}</code>[текст]. Команда сама відкриє «Форму» й запише дані за сьогодні.</li>`
-      : `<li>Додай дію «Скопіювати в буфер обміну». Потім відкрий цей екран і встав текст у поле нижче.</li>`}
+    <li>Додай дію «Скопіювати в буфер обміну» з цим текстом і, за бажанням, «Показати сповіщення» з текстом «Дані для «Форми» готові».</li>
+    <li>Відкрий «Форму» й натисни на головному екрані «📋 Вставити з годинника».</li>
    </ol>
-   <div class="small" style="margin:8px 0"><b>Щоб нічого не натискати щодня:</b> «Команди» → «Автоматизація» → «+» → «Час доби» → 21:00, щодня → «Запускати одразу» → вибери команду «Форма». Тоді дані за день передаватимуться самі.</div>
+   <div class="small" style="margin:8px 0"><b>Щоб команда запускалася сама:</b> «Команди» → «Автоматизація» → «+» → «Час доби» → 21:00, щодня → «Запускати одразу» → вибери команду «Форма». Увечері дані будуть уже скопійовані — лишиться відкрити «Форму» й натиснути «Вставити з годинника».</div>
    <div class="tiny muted">Назви дій можуть трохи відрізнятися залежно від версії iOS. Оцінка відновлення з’явиться після 7 днів даних пульсу у спокої або HRV.</div>
    <label class="f" style="margin-top:10px"><span>Текст із команди</span><textarea id="h-paste" placeholder="active=520;steps=8400;rhr=58;hr=92"></textarea></label>
    <button class="btn full" data-act="h-parse">Розпізнати</button></details>
@@ -1817,6 +1824,16 @@ document.addEventListener("click", async e => {
       const e = {id: "X" + uid(), n: "+", custom: true, name: String(x.name), mus: String(x.mus || ""), sets: Math.min(6, Math.max(1, Math.round(num(x.sets) || 2))), lo, hi, rir: "1–2", rest: Math.round(num(x.rest) || 75), kind: "iso"};
       save("exlib", {items: [...exLib(), e]}); const dd = x.day === "B" ? "B" : "A"; savePlan(pl => { pl[dd].push(e.id); }); markApplied("a" + v); break; }
     case "health": openHealth(curDay); break;
+    case "h-clip": {
+      let txt = null;
+      try { txt = await navigator.clipboard.readText(); } catch (e) {}
+      const r = txt ? parseHealth(txt) : null;
+      if (r) { applyHealth(r); break; }
+      $("#sheet").innerHTML = `<div class="grab"></div><h2>Вставити дані з годинника</h2><div class="small muted" style="margin-bottom:8px">${txt === null ? "Утримуй палець у полі нижче й натисни «Вставити»." : "У буфері немає даних з команди. Спершу запусти команду «Форма» в «Командах», потім повернися сюди."}</div>
+        <textarea id="h-paste2" placeholder="active=520;steps=8400;rhr=58;hrv=55"></textarea><button class="btn pri full" style="margin-top:10px" data-act="h-clip2">Записати</button>`;
+      openSheet(); break;
+    }
+    case "h-clip2": { const r = parseHealth($("#h-paste2").value); if (!r) return toast("Не знайшов даних у тексті"); closeSheet(); applyHealth(r); break; }
     case "h-parse": { const r = parseHealth($("#h-paste").value); if (!r) return toast("Не знайшов даних у тексті"); for (const [k, x] of Object.entries(r)) { const el = $("#h-" + k); if (el) el.value = String(x); } toast("Дані розпізнано — натисни «Зберегти»"); break; }
     case "h-save": { const hd = {}; for (const k of Object.keys(HF)) { const x = num($("#h-" + k).value); if (x !== null && x >= 0) hd[k] = x; }
       setDay(d => { if (hd.weight) { d.weight = hd.weight; delete hd.weight; } if (Object.keys(hd).length) d.health = hd; else delete d.health; }); closeSheet(); break; }
