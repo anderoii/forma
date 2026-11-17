@@ -1,5 +1,5 @@
 // Офлайн-кеш «Форми»: застосунок відкривається без інтернету
-const CACHE = "forma-v5";
+const CACHE = "forma-v6";
 const FILES = ["./", "./index.html", "./manifest.webmanifest", "./icon-180.png", "./icon-512.png", "./scan.js"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES))); self.skipWaiting(); });
 self.addEventListener("activate", e => {

@@ -66,7 +66,7 @@ label.f{display:block;margin-bottom:10px}label.f span{display:block;font-size:13
 .ex.ss{border-left-color:var(--blue)}
 .setrow{display:grid;grid-template-columns:26px 1fr 14px 1fr 46px;gap:8px;align-items:center;margin-top:8px}
 .setrow input{text-align:center;padding:9px 6px}
-.setrow .n{color:var(--muted);text-align:center;font-weight:600}
+.setrow .n{color:var(--muted);text-align:center;font-weight:600;padding:7px 0}
 .chk{width:46px;height:42px;border-radius:12px;background:var(--card2);font-size:20px;color:var(--muted)}
 .chk.on{background:var(--acc2);color:#04140a}
 .exhead{display:flex;gap:10px;align-items:flex-start}
@@ -254,6 +254,54 @@ const FOODS_MORE = [
 const DISHES = new Set(["Борщ з м’ясом", "Вареники з картоплею", "Вареники з сиром", "Плов з куркою", "Салат олів’є", "Млинці", "Шаурма", "Котлета домашня смажена"]);
 for (const f of FOODS) if (DISHES.has(f.name)) f.dish = true;
 FOODS.push(...FOODS_MORE);
+// Ще страви (типовий домашній рецепт, на 100 г; похибка ±15%)
+FOODS.push(...[
+ ["Борщ зелений (щавлевий)",45,2.5,2.3,3.5,{u:"тарілка",g:300}],["Борщ пісний",35,1,1.5,4.8,{u:"тарілка",g:300}],["Капусняк",40,1.8,2,3.8,{u:"тарілка",g:300}],["Розсольник",45,1.6,2.4,4.5,{u:"тарілка",g:300}],
+ ["Суп грибний",35,1.5,1.5,4,{u:"тарілка",g:300}],["Суп з фрикадельками",50,3,2.5,4,{u:"тарілка",g:300}],["Суп рисовий з куркою",45,3,1.5,5,{u:"тарілка",g:300}],["Юшка рибна (уха)",46,4.5,1.5,3.5,{u:"тарілка",g:300}],
+ ["Бульйон курячий",15,2,0.6,0.2,{u:"тарілка",g:300}],["Суп-пюре гарбузовий",50,1,2.5,6,{u:"тарілка",g:300}],["Крем-суп грибний",65,1.6,4.5,4.5,{u:"тарілка",g:300}],["Окрошка на кефірі",60,3,3,5,{u:"тарілка",g:300}],["Холодник",45,2,2,4,{u:"тарілка",g:300}],
+ ["Котлета по-київськи",290,16,20,10,{u:"шт",g:150}],["Відбивна свиняча смажена",280,22,20,6,{u:"шт",g:130}],["Відбивна куряча смажена",200,24,9,6,{u:"шт",g:130}],["Курка запечена зі шкірою",210,24,12.5,0],
+ ["Шашлик свинячий",260,20,19,1],["Шашлик курячий",160,22,7,1],["Печеня (картопля з м’ясом)",145,7,8,11],["Гуляш яловичий",145,14,9,3],["Рагу овочеве",70,1.5,4,7],["Капуста тушкована",75,2,4,8],
+ ["Тефтелі в соусі",150,9,9,9,{u:"шт",g:60}],["Котлети рибні",170,12,9,10,{u:"шт",g:80}],["Риба смажена",160,17,8,5],["Риба запечена з овочами",110,13,5,3],["Печінка тушкована",150,18,7,4],
+ ["Зрази картопляні з м’ясом",170,7,8,18,{u:"шт",g:100}],["Налисники з сиром",200,10,8,23,{u:"шт",g:90}],["Сирна запіканка",170,14,6,15],["Вареники з капустою",150,4,4,24],["Вареники з м’ясом",220,10,9,25],
+ ["Галушки",200,6,4,35],["Банош з бринзою",190,6,10,19],["Холодець",120,15,6,1],["Плов з яловичиною",190,8,8,22],["Гречка з грибами",110,3.5,4,16],["Рис з овочами",110,2.5,3,19],
+ ["Картопля по-селянськи",140,2.5,6,19],["Пюре з котлетою",165,8,9,13],["Курка з рисом",150,11,4,17],["Макарони з сиром",175,7,7,21],["Паста карбонара",190,8,9,19],["Спагеті болоньєзе",150,7,6,17],
+ ["Лазанья",160,9,8,13],["Різото з куркою",140,7,5,17],["Омлет з овочами",120,8,8.5,3],["Яєчня з беконом",250,14,21,0.8],["Каша вівсяна з бананом на молоці",110,3.5,3.5,17],["Гречка на молоці",90,3.5,2.5,13.5],
+ ["Хачапурі",280,11,13,30,{u:"шт",g:200}],["Чебурек",270,8,15,26,{u:"шт",g:130}],["Пиріжок з капустою смажений",230,5,10,30,{u:"шт",g:70}],["Пиріжок з картоплею печений",210,5,6,33,{u:"шт",g:70}],
+ ["Пиріжок з вишнею печений",230,5,6,38,{u:"шт",g:70}],["Сосиска в тісті",280,9,15,27,{u:"шт",g:100}],["Пончик",400,6,22,45,{u:"шт",g:60}],["Шарлотка з яблуками",230,5,6,40],
+ ["Салат з крабовими паличками",190,6,13,11],["Салат «Грецький»",100,3,8,4],["Салат з буряка з часником і майонезом",140,1.5,11,8],["Салат «Мімоза»",210,8,17,4],["Салат з капусти з олією",70,1.3,5,5],
+ ["Салат з огірків і помідорів зі сметаною",55,1.2,4,3.5],["Капрезе",200,12,15,3],["Нагетси курячі",300,15,18,18,{u:"шт",g:18}],["Суші нігірі",140,6,2,24,{u:"шт",g:35}],["Піца пепероні",280,12,12,30,{u:"шматок",g:110}],
+ ["Піца маргарита",250,10.5,9,32,{u:"шматок",g:110}],["Бутерброд з ковбасою",260,10,14,24,{u:"шт",g:60}],["Бутерброд з маслом і сиром",330,11,19,30,{u:"шт",g:60}],["Тост з авокадо",200,5,11,20,{u:"шт",g:100}],
+ ["Смузі бананово-ягідний",70,1.5,0.5,15,{u:"склянка",g:300}],["Протеїновий коктейль на молоці",85,9,2.2,7,{u:"склянка",g:300}],["Торт «Наполеон»",410,6,25,42,{u:"шматок",g:100}],["Медовик",450,6,20,60,{u:"шматок",g:100}],
+ ["Чізкейк",320,6,22,25,{u:"шматок",g:120}],["Тірамісу",300,6,18,28],["Еклер",260,4.5,15,27,{u:"шт",g:60}],["Кекс",380,6,18,50,{u:"шт",g:80}],["Узвар",35,0.2,0,8.5,{u:"склянка",g:250}],["Чай з цукром",30,0,0,7.5,{u:"чашка",g:250}]
+].map(a => ({name: a[0], kcal: a[1], p: a[2], f: a[3], c: a[4], unit: a[5] || null, dish: true})).filter(f => !FOODS.some(x => x.name === f.name)));
+// Клітковина, г на 100 г (USDA FoodData Central, округлено). Для продуктів тваринного походження й олій — 0.
+const FIBER = {"Гречка варена": 2.7, "Гречка суха": 10, "Рис білий варений": 0.4, "Рис білий сухий": 1.3, "Вівсяні пластівці сухі": 10.1, "Вівсянка на воді": 1.7, "Вівсянка на молоці": 1.5,
+  "Макарони варені": 1.8, "Макарони сухі": 3.2, "Макарони цільнозернові варені": 3.9, "Булгур варений": 4.5, "Булгур сухий": 12.5, "Пшоно варене": 1.3, "Пшоно сухе": 8.5, "Перловка варена": 3.8,
+  "Рис бурий варений": 1.6, "Рис бурий сухий": 3.4, "Кіноа варена": 2.8, "Кус-кус варений": 1.4, "Кукурудзяна каша (мамалига)": 0.7, "Манна каша на молоці": 0.3,
+  "Картопля варена": 1.8, "Картопляне пюре": 1.5, "Картопля смажена": 2.2, "Картопля сира": 2.2, "Картопля запечена": 2.2, "Картопля фрі": 3.8, "Батат запечений": 3.3,
+  "Хліб пшеничний": 2.7, "Хліб житній": 5.8, "Хліб цільнозерновий": 6.8, "Батон нарізний": 2.4, "Лаваш тонкий": 2.2, "Піта": 2.2, "Тортилья пшенична": 3.5, "Хлібці цільнозернові": 12,
+  "Борошно пшеничне": 2.7, "Кукурудзяні пластівці": 3.3, "Гранола": 6.7, "Мюслі": 7.3, "Круасан": 2.6, "Булочка здобна": 2,
+  "Банан": 2.6, "Яблуко": 2.4, "Апельсин": 2.4, "Груша": 3.1, "Мандарин": 1.8, "Виноград": 0.9, "Полуниця": 2, "Ківі": 3, "Персик": 1.5, "Абрикос": 2, "Слива": 1.4, "Вишня": 1.6, "Черешня": 2.1,
+  "Кавун": 0.4, "Диня": 0.9, "Грейпфрут": 1.6, "Лимон": 2.8, "Ананас": 1.4, "Манго": 1.6, "Хурма": 3.6, "Гранат": 4, "Малина": 6.5, "Чорниця": 2.4, "Смородина чорна": 4.3,
+  "Родзинки": 3.7, "Курага": 7.3, "Чорнослив": 7.1, "Фініки": 8, "Авокадо": 6.7,
+  "Огірок": 0.5, "Помідор": 1.2, "Капуста білокачанна": 2.5, "Морква": 2.8, "Буряк варений": 2, "Броколі": 2.6, "Перець болгарський": 2.1, "Цибуля ріпчаста": 1.7, "Кабачок": 1,
+  "Цвітна капуста": 2, "Капуста квашена": 2.9, "Пекінська капуста": 1.2, "Шпинат": 2.2, "Салат листовий": 1.3, "Редиска": 1.6, "Баклажан": 3, "Гарбуз": 0.5, "Кукурудза консервована": 2,
+  "Горошок зелений консервований": 4.1, "Зелена квасоля": 2.7, "Селера": 1.6, "Петрушка": 3.3, "Цибуля зелена": 2.6, "Печериці": 1, "Часник": 2.1, "Оливки": 3.2, "Огірки солоні": 1.2,
+  "Квасоля варена": 6.4, "Сочевиця варена": 7.9, "Нут варений": 7.6, "Сочевиця суха": 10.7, "Квасоля суха": 15.2, "Нут сухий": 12.2, "Горох колотий сухий": 25.5, "Горох варений": 8.3,
+  "Квасоля консервована": 5.5, "Хумус": 6, "Томатна паста": 4.1, "Кетчуп": 0.3,
+  "Горіхи волоські": 6.7, "Мигдаль": 12.5, "Арахіс": 8.5, "Арахісова паста": 6, "Насіння соняшника": 8.6, "Кешью": 3.3, "Фундук": 9.7, "Фісташки": 10.6, "Насіння гарбуза": 6,
+  "Насіння чіа": 34.4, "Насіння льону": 27.3, "Кунжут": 11.8, "Кокосова стружка": 16.3, "Халва соняшникова": 4.5,
+  "Шоколад чорний 70%": 10.9, "Шоколад молочний": 3.4, "Печиво вівсяне": 2.8, "Чипси картопляні": 4.4, "Протеїновий батончик (типовий)": 5,
+  "Борщ з м’ясом": 1.2, "Вареники з картоплею": 1.5, "Вареники з сиром": 0.8, "Плов з куркою": 0.8, "Салат олів’є": 1.2, "Млинці": 0.8, "Шаурма": 1.5, "Вінегрет": 2.2,
+  "Салат овочевий з олією": 1.6, "Гречка з м’ясом": 2, "Суп гороховий": 1.8, "Деруни": 2, "Сік апельсиновий": 0.2, "Сік яблучний": 0.2, "Сік томатний": 0.4, "Мед": 0.2, "Цукор": 0};
+for (const f of FOODS) { if (FIBER[f.name] !== undefined) f.fb = FIBER[f.name]; else if (!f.dish && f.c < 1.5) f.fb = 0; }
+function fiberOf(it) {
+  const per = it.per || {}; let fb = per.fb;
+  if (fb === undefined || fb === null) { const f = foodByName(it.name); fb = f && f.fb !== undefined ? f.fb : null; }
+  if ((fb === undefined || fb === null) && it.g) { const c = per.c ?? (it.c / it.g * 100); if (c < 1.5) fb = 0; }
+  return fb === null || fb === undefined ? null : fb * (it.g || 0) / 100;
+}
+function fiberTotal(foods) { let s = 0, miss = 0; for (const it of foods || []) { const x = fiberOf(it); if (x === null) miss++; else s += x; } return {g: s, miss}; }
 const normTxt = s => String(s || "").toLowerCase().replace(/['ʼ`’]/g, "’").replace(/ё/g, "е");
 const FOOD_IDX = new Map(FOODS.map(f => [normTxt(f.name), f]));
 function foodByName(n) { if (!n) return null; const k = normTxt(n); return FOOD_IDX.get(k) || customFoods().find(f => normTxt(f.name) === k) || null; }
@@ -413,10 +461,13 @@ function targets(k) {
   else if (pct > 0 && hd.active) { tdee = bmr * 1.2 + hd.active * pct / 100; watch = true; }
   else tdee = bmr * p.activity;
   const adj = {gain: 200, keep: 0, cut: -400}[p.goal] || 0;
-  const kcal = p.kcalOverride || Math.round((tdee + adj) / 10) * 10;
+  let bonus = 0;
+  if (p.trainBonus && !watch) { const kk = k || curDay, tr = workouts().some(x => x.date === kk); bonus = tr ? p.trainBonus : -Math.round(p.trainBonus * 2 / 5 / 10) * 10; }
+  const kcal = (p.kcalOverride || Math.round((tdee + adj) / 10) * 10) + bonus;
   const prot = Math.round(w * p.proteinPerKg), fat = Math.round(w * 0.9);
   const carb = Math.max(0, Math.round((kcal - prot * 4 - fat * 9) / 4));
-  return {bmr, tdee, kcal, prot, fat, carb, w, watch, adaptive, mifflin: bmr * p.activity};
+  const fiber = Math.max(20, Math.round(kcal / 1000 * 14));
+  return {bmr, tdee, kcal, prot, fat, carb, fiber, bonus, w, watch, adaptive, mifflin: bmr * p.activity};
 }
 function totals(foods) { return foods.reduce((a, x) => ({kcal: a.kcal + x.kcal, p: a.p + x.p, f: a.f + x.f, c: a.c + x.c}), {kcal: 0, p: 0, f: 0, c: 0}); }
 function portion(per, g) { return {kcal: Math.round(per.kcal * g / 100), p: Math.round(per.p * g) / 100, f: Math.round(per.f * g) / 100, c: Math.round(per.c * g) / 100}; }
@@ -447,6 +498,7 @@ function render() {
   if (!Store.loaded) { v.innerHTML = `<h1>Форма</h1><div class="card muted"><span class="spin"></span> Завантажую дані…</div>`; return; }
   const note = Store.stale ? `<div class="note">Немає зв’язку зі сховищем — дані можуть бути неактуальні. Зміни збережуться, щойно з’єднання відновиться.</div>` : "";
   if (!tdeeChecked) { tdeeChecked = true; setTimeout(maybeUpdateTDEE, 300); }
+  if (!syncTried) { syncTried = true; setTimeout(() => syncHealth(), 400); }
   v.innerHTML = note + ({food: viewFood, gym: viewGym, rec: viewRec, prog: viewProg, me: viewMe}[tab] || viewFood)();
   if (tab === "gym") tickElapsed();
 }
@@ -478,11 +530,13 @@ function viewFood() {
   h += `<div class="card"><div class="ringwrap">${ring(tot.kcal, t.kcal)}<div class="grow">
     <div style="font-weight:700;margin-bottom:8px;color:${left < 0 ? "var(--warn)" : "var(--text)"}">${left >= 0 ? "Залишилось " + fmt(left) + " ккал" : "Понад норму на " + fmt(-left) + " ккал"}</div>
     ${macroBar("Білки", tot.p, t.prot, "var(--p)")}${macroBar("Жири", tot.f, t.fat, "var(--f)")}${macroBar("Вуглеводи", tot.c, t.carb, "var(--c)")}
-  </div></div>${(() => { const aik = totals(d.foods.filter(x => x.src === "ai")).kcal; return aik && tot.kcal ? `<div class="tiny muted" style="margin-top:8px">🤖 ${fmt(aik / tot.kcal * 100)}% калорій — оцінка ШІ (похибка до ±25%). Для точності зваж і вибери продукти з бази.</div>` : ""; })()}
+    ${(() => { const fb = fiberTotal(d.foods); return macroBar("Клітковина" + (fb.miss ? " ≈" : ""), Math.round(fb.g), t.fiber, "#8b9a46"); })()}
+  </div></div>${t.bonus ? `<div class="tiny muted" style="margin-top:6px">${t.bonus > 0 ? "🏋️ День тренування: норма +" + fmt(t.bonus) + " ккал" : "🛋 День відпочинку: норма −" + fmt(-t.bonus) + " ккал"} (за тиждень у середньому — без змін)</div>` : ""}${(() => { const aik = totals(d.foods.filter(x => x.src === "ai")).kcal; return aik && tot.kcal ? `<div class="tiny muted" style="margin-top:8px">🤖 ${fmt(aik / tot.kcal * 100)}% калорій — оцінка ШІ (похибка до ±25%). Для точності зваж і вибери продукти з бази.</div>` : ""; })()}
    ${t.adaptive ? `<div class="tiny muted" style="margin-top:4px">Норма підлаштована під твою фактичну витрату: ${fmt(t.tdee)} ккал.</div>` : ""}</div>`;
   if (sampleFn && navigator.onLine) h += `<div class="row" style="margin-bottom:12px">
     ${sampleImages ? `<label class="btn pri grow" style="text-align:center">📷 Фото їжі<input type="file" accept="image/*" id="snap" hidden></label>` : `<button class="btn pri grow" data-act="ai-open">🍽 Порахувати страву</button>`}
     <button class="btn grow" data-act="diet">🥗 Мій дієтолог</button></div>`;
+  else h += `<div class="row" style="margin-bottom:12px"><button class="btn pri grow" data-act="ai-setup">📷 Фото їжі</button><button class="btn grow" data-act="ai-setup">🥗 Мій дієтолог</button></div>`;
   if (OWN && isToday && Object.keys(docs).length > 3) { const lb = lsGet("forma-backup"), dd = lb ? Math.round((new Date(todayKey()) - new Date(lb)) / 864e5) : 99;
     if (dd >= 7) h += `<div class="card row" style="border:1px solid #6b5414"><div class="grow small">💾 ${lb ? "Остання резервна копія — " + daysTxt(dd) + " тому" : "Ти ще не робив резервну копію"}. Дані живуть лише на цьому телефоні.</div><button class="btn" data-act="backup">Зберегти</button></div>`; }
   h += healthCard(curDay);
@@ -493,7 +547,10 @@ function viewFood() {
     h += `<div class="card meal"><div class="row between"><h3>${name}</h3><span class="muted small">${items.length ? fmt(mt.kcal) + " ккал" : ""}</span></div>`;
     for (const it of items) h += `<div class="item" data-act="edit-food" data-id="${it.id}"><div class="grow"><div>${esc(it.name)}</div>
       <div class="tiny muted">${it.src === "ai" ? "🤖 оцінка ШІ · " : it.src === "off" || it.src === "label" ? "🏷️ " : ""}${fmt(it.g)} г · Б ${fmt(it.p, 1)} · Ж ${fmt(it.f, 1)} · В ${fmt(it.c, 1)}</div></div><div class="kc">${it.src === "ai" ? "≈" : ""}${fmt(it.kcal)}</div></div>`;
-    h += `<button class="add" data-act="add-food" data-meal="${m}">+ Додати</button></div>`;
+    const prevK = addDays(curDay, -1), prev = (day(prevK).foods || []).filter(x => x.meal === m);
+    h += `<div class="row between"><button class="add" data-act="add-food" data-meal="${m}">+ Додати</button>
+      ${!items.length && prev.length ? `<button class="add" style="color:var(--blue)" data-act="meal-repeat" data-meal="${m}" data-k="${prevK}">↻ Як учора · ${fmt(totals(prev).kcal)} ккал</button>` : ""}
+      ${items.length >= 2 ? `<button class="add muted" data-act="combo-new" data-meal="${m}">💾 Зберегти як страву</button>` : ""}</div></div>`;
   }
   return h;
 }
@@ -514,7 +571,7 @@ function drawAdd() {
   let h = `<div class="grab"></div><div class="row between" style="margin-bottom:10px"><select id="mealSel" style="width:auto;font-weight:700">${MEALS.map(([k, n]) => `<option value="${k}" ${k === a.meal ? "selected" : ""}>${n}</option>`).join("")}</select><button class="muted" data-act="close">Закрити</button></div>`;
   if (a.pick) {
     const p = a.pick, v = portion(p, a.g || 0);
-    h += `<div style="font-weight:700;font-size:18px">${esc(p.name)}</div><div class="small muted" style="margin-bottom:12px">${p.src === "off" ? "🏷️ Open Food Facts · " : p.src === "label" ? "🏷️ з етикетки · " : p.dish ? "страва за типовим рецептом (±15%) · " : p.src === "own" ? "✍️ свій продукт · " : "📗 база · "}на 100 г: ${fmt(p.kcal)} ккал · Б ${fmt(p.p, 1)} · Ж ${fmt(p.f, 1)} · В ${fmt(p.c, 1)}</div>
+    h += `<div class="row between" style="align-items:flex-start"><div style="font-weight:700;font-size:18px">${esc(p.name)}</div><button class="chip" style="font-size:18px;padding:4px 10px;color:${isFav(p.name) ? "#facc15" : "var(--muted)"}" data-act="fav" aria-label="улюблене">${isFav(p.name) ? "★" : "☆"}</button></div><div class="small muted" style="margin-bottom:12px">${p.src === "off" ? "🏷️ Open Food Facts · " : p.src === "label" ? "🏷️ з етикетки · " : p.dish ? "страва за типовим рецептом (±15%) · " : p.src === "own" ? "✍️ свій продукт · " : "📗 база · "}на 100 г: ${fmt(p.kcal)} ккал · Б ${fmt(p.p, 1)} · Ж ${fmt(p.f, 1)} · В ${fmt(p.c, 1)}</div>
     <label class="f"><span>Скільки грамів</span><input type="number" inputmode="decimal" id="grams" value="${a.g}"></label>`;
     if (p.unit) h += `<div class="row wrap" style="margin-bottom:12px">${[1, 2, 3].map(n => `<button class="chip" data-act="unit" data-v="${p.unit.g * n}">${n} ${esc(p.unit.u)} = ${p.unit.g * n} г</button>`).join("")}</div>`;
     h += `<div class="card" style="background:var(--card2)" id="pv">${pvHtml(v)}</div>
@@ -523,8 +580,9 @@ function drawAdd() {
     s.innerHTML = h; return;
   }
   h += `<div class="seg"><button data-act="mode" data-v="base" class="${a.mode === "base" ? "on" : ""}">База</button>
-   ${sampleFn && navigator.onLine ? `<button data-act="mode" data-v="ai" class="${a.mode === "ai" ? "on" : ""}">ШІ</button>` : ""}
+   <button data-act="mode" data-v="ai" class="${a.mode === "ai" ? "on" : ""}">📷 ШІ</button>
    <button data-act="mode" data-v="bc" class="${a.mode === "bc" ? "on" : ""}">Штрихкод</button>
+   <button data-act="mode" data-v="combo" class="${a.mode === "combo" || a.mode === "rec" ? "on" : ""}">Страви</button>
    <button data-act="mode" data-v="own" class="${a.mode === "own" ? "on" : ""}">Свій</button></div>`;
   if (a.mode === "base") {
     h += `<input type="search" id="fq" placeholder="Пошук: гречка, курка, банан…" value="${esc(a.q)}" autocomplete="off"><div class="list" id="flist" style="margin-top:6px">${foodList()}</div>`;
@@ -534,12 +592,19 @@ function drawAdd() {
     <label class="f"><span>Назва</span><input type="text" id="o-name" value="${esc(pf.name || "")}"></label>
     <div class="grid2"><label class="f"><span>Ккал</span><input type="number" inputmode="decimal" id="o-kcal" value="${pf.kcal ?? ""}"></label><label class="f"><span>Білки, г</span><input type="number" inputmode="decimal" id="o-p" value="${pf.p ?? ""}"></label>
     <label class="f"><span>Жири, г</span><input type="number" inputmode="decimal" id="o-f" value="${pf.f ?? ""}"></label><label class="f"><span>Вуглеводи, г</span><input type="number" inputmode="decimal" id="o-c" value="${pf.c ?? ""}"></label></div>
+    <label class="f"><span>Клітковина, г (необов’язково)</span><input type="number" inputmode="decimal" id="o-fb" value="${pf.fb ?? ""}"></label>
     ${pf.warn ? `<div class="note">${esc(pf.warn)}</div>` : ""}
     <button class="btn pri full" data-act="own-save">${pf.warn ? "Все одно зберегти" : "Зберегти і вибрати"}</button>`;
     const cf = customFoods();
     if (cf.length) h += `<h2 style="margin-top:16px">Мої продукти</h2><div class="list">${cf.map((f, i) => `<div class="li"><div class="grow" data-act="pick-custom" data-i="${i}"><div>${esc(f.name)}</div><div class="tiny muted">${fmt(f.kcal)} ккал / 100 г</div></div><button class="muted" data-act="custom-del" data-i="${i}">✕</button></div>`).join("")}</div>`;
   } else if (a.mode === "bc") {
     h += bcHtml();
+  } else if (a.mode === "combo") {
+    h += comboHtml();
+  } else if (a.mode === "rec") {
+    h += recHtml();
+  } else if (!sampleFn || !navigator.onLine) {
+    h += aiSetupHtml(false);
   } else {
     const ai = a.ai;
     h += `<div class="small muted" style="margin-bottom:10px">Опиши, що з’їв, ${sampleImages ? "або додай фото страви, " : ""}і ШІ приблизно порахує калорії та БЖВ. Перевір грами перед додаванням.</div>
@@ -569,22 +634,98 @@ function fitHtml(st) {
   return `<div class="tiny muted" style="margin-bottom:6px">Денна норма після цієї їжі</div>${line("Калорії", after.kcal, t.kcal, "ккал", "var(--acc)")}${line("Білки", after.p, t.prot, "г", "var(--p)")}${line("Жири", after.f, t.fat, "г", "var(--f)")}${line("Вуглеводи", after.c, t.carb, "г", "var(--c)")}`;
 }
 const pvHtml = v => `<div class="row between"><b style="font-size:20px">${fmt(v.kcal)} ккал</b><span class="small muted">Б ${fmt(v.p, 1)} · Ж ${fmt(v.f, 1)} · В ${fmt(v.c, 1)}</span></div>`;
+const favFoods = () => (docs.fav && docs.fav.items) || [];
+const isFav = name => favFoods().some(f => f.name === name);
+function frequentFoods(n) {
+  const cnt = new Map();
+  for (let i = 0; i < 30; i++) for (const f of (day(addDays(todayKey(), -i)).foods || [])) if (f.per) {
+    const c = cnt.get(f.name) || {n: 0, f: {name: f.name, ...f.per, unit: f.unit || null}}; c.n++; cnt.set(f.name, c); }
+  return [...cnt.values()].filter(x => x.n >= 3).sort((a, b) => b.n - a.n).slice(0, n).map(x => Object.assign(x.f, {times: x.n}));
+}
 function foodList() {
   const q = add.q.trim().toLowerCase();
   let list;
-  if (!q) { const r = recentFoods(); list = r.length ? r : FOODS.slice(0, 20); }
+  if (!q) {
+    const fav = favFoods(), seen = new Set(fav.map(f => f.name));
+    const fr = frequentFoods(8).filter(f => !seen.has(f.name)); fr.forEach(f => seen.add(f.name));
+    const rc = recentFoods().filter(f => !seen.has(f.name));
+    list = [...fav, ...fr, ...rc];
+    if (!list.length) list = FOODS.slice(0, 20);
+    add._list = list;
+    const heads = {}; if (fav.length) heads[0] = "⭐ Улюблене"; if (fr.length) heads[fav.length] = "🔁 Часто їси"; if (rc.length) heads[fav.length + fr.length] = "🕘 Нещодавні";
+    if (!fav.length && !fr.length && !rc.length) heads[0] = "Популярні";
+    return list.map((f, i) => (heads[i] ? `<div class="tiny muted" style="margin:10px 2px 2px">${heads[i]}</div>` : "") +
+      `<div class="li" data-act="pick" data-i="${i}"><div class="grow">${esc(f.name)}${f.dish ? ' <span class="tiny muted">страва</span>' : ""}${f.recipe ? ' <span class="tiny muted">рецепт</span>' : ""}${f.times ? ` <span class="tiny muted">×${f.times}</span>` : ""}</div><div class="muted small">${fmt(f.kcal)} ккал</div></div>`).join("");
+  }
   else { const toks = normTxt(q).split(/\s+/).filter(Boolean); list = [...customFoods(), ...FOODS].filter(f => { const n = normTxt(f.name); return toks.every(t => n.includes(t)); })
     .sort((a, b) => normTxt(a.name).indexOf(toks[0]) - normTxt(b.name).indexOf(toks[0])).slice(0, 50); }
   add._list = list;
-  if (!list.length) return `<div class="muted small" style="padding:12px 2px">Нічого не знайшов. Спробуй «Свій продукт»${sampleFn ? " або «ШІ-оцінку»" : ""}.</div>`;
-  return (!q ? `<div class="tiny muted" style="margin:8px 2px 2px">${recentFoods().length ? "Нещодавні" : "Популярні"}</div>` : "") +
-    list.map((f, i) => `<div class="li" data-act="pick" data-i="${i}"><div class="grow">${esc(f.name)}${f.dish ? ' <span class="tiny muted">страва</span>' : ""}${f.bc ? ' <span class="tiny muted">🏷️</span>' : ""}</div><div class="muted small">${fmt(f.kcal)} ккал</div></div>`).join("");
+  const aq = `<button class="btn full" style="margin-top:8px" data-act="ai-q">🤖 ${list.length ? "Немає потрібного? " : ""}Порахувати «${esc(add.q.trim())}» через ШІ</button>`;
+  if (!list.length) return `<div class="muted small" style="padding:12px 2px">У базі немає «${esc(add.q.trim())}» — ШІ порахує будь-яку страву.</div>` + aq;
+  return list.map((f, i) => `<div class="li" data-act="pick" data-i="${i}"><div class="grow">${esc(f.name)}${f.dish ? ' <span class="tiny muted">страва</span>' : ""}${f.bc ? ' <span class="tiny muted">🏷️</span>' : ""}</div><div class="muted small">${fmt(f.kcal)} ккал</div></div>`).join("") + aq;
 }
 function addEntry(name, per, g, unit, src) {
   const v = portion(per, g);
-  setDay(d => d.foods.push({id: uid(), meal: add.meal, name, g, per: {kcal: per.kcal, p: per.p, f: per.f, c: per.c}, unit: unit || null, src: src || "db", ...v}));
+  const pp = {kcal: per.kcal, p: per.p, f: per.f, c: per.c}; if (num(per.fb) !== null) pp.fb = num(per.fb);
+  setDay(d => d.foods.push({id: uid(), meal: add.meal, name, g, per: pp, unit: unit || null, src: src || "db", ...v}));
 }
 
+
+/* ---------- коли ШІ ще не налаштований ---------- */
+function aiSetupHtml(inSheet) {
+  if (!navigator.onLine) return `<div class="note">📷 Розпізнавання фото й дієтолог працюють лише з інтернетом. Підключись до мережі й спробуй ще раз — а поки додай продукти з бази.</div>`;
+  if (!OWN) return `<div class="note">ШІ в цій версії недоступний — дозволь «Формі» доступ до ШІ або відкрий її з власного сайту (anderoii.github.io/forma).</div>`;
+  return `<div class="small" style="margin-bottom:10px">Щоб сфотографувати страву й отримати калорії, білки, жири й вуглеводи автоматично, «Формі» потрібен безплатний ключ ШІ Google Gemini. Це один раз, ~2 хвилини:</div>
+   <ol class="small" style="padding-left:20px;margin:0 0 10px">
+    <li>Відкрий <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" style="color:var(--acc)">aistudio.google.com/apikey</a> і увійди через Google-акаунт.</li>
+    <li>Натисни «Create API key» і скопіюй ключ (починається з «AIza»).</li>
+    <li>Встав його нижче й натисни «Зберегти».</li></ol>
+   <label class="f"><span>Ключ Gemini API</span><input type="text" id="g-key" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="AIza…" value="${esc(geminiCfg().key || "")}"></label>
+   <input type="hidden" id="g-model" value="${esc(geminiCfg().model || "gemini-2.5-flash")}">
+   <button class="btn pri full" data-act="g-save"${inSheet ? ' data-close="1"' : ""}>Зберегти</button>
+   <div class="tiny muted" style="margin-top:8px">Ключ зберігається тільки на цьому телефоні. Безплатного ліміту вистачає на десятки фото на день.</div>`;
+}
+
+/* ---------- збережені страви (набори) і рецепти ---------- */
+const combos = () => (docs.combos && docs.combos.items) || [];
+const copyFood = (x, meal) => ({id: uid(), meal, name: x.name, g: x.g, per: x.per ? Object.assign({}, x.per) : null, unit: x.unit || null, src: x.src || "db", kcal: x.kcal, p: x.p, f: x.f, c: x.c});
+function comboHtml() {
+  const cs = combos();
+  let h = `<div class="small muted" style="margin-bottom:10px">Набори продуктів, які ти часто їси разом (напр.: «Мій сніданок»), — додаються одним натисканням. Зберегти набір можна кнопкою «💾» під прийомом їжі.</div>`;
+  h += cs.length ? `<div class="list">${cs.map((c, i) => { const t = totals(c.foods); return `<div class="li"><div class="grow" data-act="combo-add" data-i="${i}" style="cursor:pointer"><div>${esc(c.name)}</div><div class="tiny muted">${c.foods.map(x => esc(x.name)).join(", ")}</div></div><div style="text-align:right"><div class="small">${fmt(t.kcal)} ккал</div><button class="muted small" data-act="combo-del" data-i="${i}">✕</button></div></div>`; }).join("")}</div>`
+    : `<div class="note">Збережених страв ще немає.</div>`;
+  h += `<button class="btn pri full" style="margin-top:14px" data-act="rec-new">🍲 Новий рецепт (борщ, сирники, плов…)</button>
+   <div class="tiny muted" style="margin-top:6px">Рецепт: введи інгредієнти й вагу готової страви — «Форма» порахує калорії на 100 г і збереже страву у твоїй базі.</div>`;
+  return h;
+}
+function recCalc(r) {
+  const tot = r.items.reduce((a, x) => { const v = portion(x.per, x.g || 0); a.kcal += v.kcal; a.p += v.p; a.f += v.f; a.c += v.c; a.g += x.g || 0; const fb = x.per.fb; if (fb !== undefined && fb !== null) a.fb += fb * (x.g || 0) / 100; else a.miss++; return a; }, {kcal: 0, p: 0, f: 0, c: 0, g: 0, fb: 0, miss: 0});
+  const W = num(r.total) || tot.g, k = W ? 100 / W : 0;
+  return {tot, W, per: {kcal: Math.round(tot.kcal * k), p: Math.round(tot.p * k * 10) / 10, f: Math.round(tot.f * k * 10) / 10, c: Math.round(tot.c * k * 10) / 10, ...(tot.miss ? {} : {fb: Math.round(tot.fb * k * 10) / 10})}};
+}
+function recSumHtml() {
+  const r = add.rec, x = recCalc(r);
+  if (!r.items.length) return `<div class="small muted">Додай інгредієнти через пошук вище.</div>`;
+  return `<div class="small">Разом: <b>${fmt(x.tot.kcal)} ккал</b> · сирих інгредієнтів ${fmt(x.tot.g)} г</div>
+   <div class="small" style="margin-top:4px">На 100 г готової страви: <b>${fmt(x.per.kcal)} ккал</b> · Б ${fmt(x.per.p, 1)} · Ж ${fmt(x.per.f, 1)} · В ${fmt(x.per.c, 1)}</div>`;
+}
+function recResHtml() {
+  const r = add.rec, q = normTxt(r.q.trim()); if (!q) { r._res = []; return ""; }
+  const toks = q.split(/\s+/).filter(Boolean);
+  r._res = [...customFoods().filter(f => !f.recipe), ...FOODS].filter(f => { const n = normTxt(f.name); return toks.every(t => n.includes(t)); }).slice(0, 8);
+  return r._res.length ? r._res.map((f, i) => `<div class="li" data-act="rec-pick" data-i="${i}"><div class="grow">${esc(f.name)}</div><span class="add" style="padding:0">+ додати</span></div>`).join("") : `<div class="small muted" style="padding:8px 2px">Не знайшов. Додай продукт через «Свій».</div>`;
+}
+function recHtml() {
+  const r = add.rec;
+  return `<div class="row between" style="margin-bottom:8px"><b>🍲 Рецепт</b><button class="muted small" data-act="mode" data-v="combo">Назад</button></div>
+   <label class="f"><span>Назва страви</span><input type="text" id="rc-name" placeholder="Напр.: Борщ мамин" value="${esc(r.name)}"></label>
+   <div class="tiny muted" style="margin-bottom:4px">Інгредієнти (вага в сирому вигляді)</div>
+   <div class="list" style="margin-bottom:8px">${r.items.map((x, i) => `<div class="li" style="align-items:center"><div class="grow small">${esc(x.name)}</div><input type="number" inputmode="decimal" style="width:84px;text-align:center;padding:7px 6px" data-rc-g="${i}" value="${x.g || ""}" aria-label="грами"><span class="tiny muted">г</span><button class="muted" data-act="rec-del" data-i="${i}">✕</button></div>`).join("") || ""}</div>
+   <input type="search" id="rc-q" placeholder="Додати інгредієнт: буряк, картопля, свинина…" value="${esc(r.q)}" autocomplete="off"><div class="list" id="rc-res">${recResHtml()}</div>
+   <label class="f" style="margin-top:12px"><span>Вага готової страви, г (зваж разом із каструлею й відніми вагу каструлі; порожньо — сума інгредієнтів)</span><input type="number" inputmode="decimal" id="rc-total" value="${esc(r.total)}"></label>
+   <div class="card" style="background:var(--card2)" id="rc-sum">${recSumHtml()}</div>
+   <button class="btn pri full" data-act="rec-save">Зберегти рецепт</button>`;
+}
 
 /* ---------- штрихкоди ---------- */
 // Порції жиру для швидкого додавання: [назва в базі, грами, підпис]
@@ -608,7 +749,7 @@ function bcHtml() {
 let scanLib = null;
 function loadScanner() {
   if (window.__Html5QrcodeLibrary__) return Promise.resolve(window.__Html5QrcodeLibrary__);
-  if (!scanLib) scanLib = new Promise((res, rej) => { const sc = document.createElement("script"); sc.src = "scan.js"; sc.onload = () => res(window.__Html5QrcodeLibrary__); sc.onerror = () => { scanLib = null; rej(new Error("load")); }; document.head.appendChild(sc); });
+  if (!scanLib) scanLib = new Promise((res, rej) => { const sc = document.createElement("script"); sc.src = OWN ? "scan.js" : "https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"; sc.onload = () => res(window.__Html5QrcodeLibrary__); sc.onerror = () => { scanLib = null; rej(new Error("load")); }; document.head.appendChild(sc); });
   return scanLib;
 }
 async function toFile(file, max) {
@@ -645,6 +786,7 @@ async function bcLookup(code) {
       if (pr && kcal !== null && num(n.proteins_100g) !== null && num(n.fat_100g) !== null && num(n.carbohydrates_100g) !== null) {
         const name = ((pr.product_name_uk || pr.product_name || "Товар " + code) + (pr.brands ? " (" + String(pr.brands).split(",")[0].trim() + ")" : "")).slice(0, 80);
         const f = {name, kcal: Math.round(kcal), p: Math.round(num(n.proteins_100g) * 10) / 10, f: Math.round(num(n.fat_100g) * 10) / 10, c: Math.round(num(n.carbohydrates_100g) * 10) / 10, unit: null, src: "off", bc: code};
+        if (num(n.fiber_100g) !== null) f.fb = Math.round(num(n.fiber_100g) * 10) / 10;
         if (plaus(f).ok) { save("custom", {items: [f, ...customFoods().filter(x => x.bc !== code)]}); add.pick = f; add.g = 100; add.bc = null; drawAdd(); toast("Знайдено: " + name); return; }
         add.own = {name, kcal: f.kcal, p: f.p, f: f.f, c: f.c, bc: code, src: "off", warned: true, warn: `Дані Open Food Facts суперечливі (за БЖВ ≈ ${fmt(plaus(f).calc)} ккал). Звір з етикеткою.`}; add.mode = "own"; add.bc = null; drawAdd(); return;
       }
@@ -656,9 +798,9 @@ async function bcLabel(file) {
   const code = add.bc && add.bc.code; add.bc = {code, busy: "Зчитую етикетку…"}; drawAdd();
   try {
     const r = await sampleFn.json(`Це фото таблиці харчової цінності на упаковці продукту. Зчитай значення НА 100 г (або 100 мл). Якщо на етикетці лише на порцію — перерахуй на 100 г за масою порції.
-Поверни ЛИШЕ JSON без markdown: {"name":"назва продукту українською, якщо видно, інакше порожньо","kcal":число,"p":білки,"f":жири,"c":вуглеводи,"ok":true або false (false — якщо таблицю не видно чи цифри нечитабельні)}`, {modelTier: "default", images: [file]});
+Поверни ЛИШЕ JSON без markdown: {"name":"назва продукту українською, якщо видно, інакше порожньо","kcal":число,"p":білки,"f":жири,"c":вуглеводи,"fb":клітковина або null, якщо не вказана,"ok":true або false (false — якщо таблицю не видно чи цифри нечитабельні)}`, {modelTier: "default", images: [file]});
     if (!r || r.ok === false || num(r.kcal) === null) throw 0;
-    add.own = {name: r.name || "", kcal: Math.round(num(r.kcal)), p: num(r.p) ?? "", f: num(r.f) ?? "", c: num(r.c) ?? "", bc: code, src: "label"};
+    add.own = {name: r.name || "", kcal: Math.round(num(r.kcal)), p: num(r.p) ?? "", f: num(r.f) ?? "", c: num(r.c) ?? "", fb: num(r.fb) ?? "", bc: code, src: "label"};
     add.mode = "own"; add.bc = null; drawAdd();
   } catch (e) { add.bc = {code, notFound: true, err: "Не вдалося прочитати етикетку — сфотографуй ближче або введи вручну."}; drawAdd(); }
 }
@@ -677,7 +819,7 @@ async function aiRun() {
 Окремо в "fats" перелічи ймовірний прихований жир (олія для смаження, масло, соус, майонез), якого не видно, але який зазвичай є в такій страві — з назвою з бази в "db", грамами і коротким "why".
 Контекст: денна норма людини — ${fmt(tg.kcal)} ккал, білки ${tg.prot} г, жири ${tg.fat} г, вуглеводи ${tg.carb} г; до цієї їжі вже з’їдено ${fmt(cur.kcal)} ккал, білки ${fmt(cur.p)} г, жири ${fmt(cur.f)} г, вуглеводи ${fmt(cur.c)} г. Мета: ${GOALS[profile().goal]}.
 Поверни ЛИШЕ JSON без пояснень і без markdown, у форматі:
-{"items":[{"name":"назва українською","db":"назва з бази або null","grams":число,"kcal":число,"p":число,"f":число,"c":число}],"fats":[{"db":"назва з бази","grams":число,"why":"коротко"}],"comment":"1–2 речення від дієтолога: як ця їжа вписується в денну норму і що варто доїсти сьогодні"}
+{"items":[{"name":"назва українською","db":"назва з бази або null","grams":число,"kcal":число,"p":число,"f":число,"c":число,"fb":клітковина, г}],"fats":[{"db":"назва з бази","grams":число,"why":"коротко"}],"comment":"1–2 речення від дієтолога: як ця їжа вписується в денну норму і що варто доїсти сьогодні"}
 Значення kcal, p, f, c — для всієї порції (потрібні лише коли db = null).`;
   try {
     const opts = {modelTier: "default"};
@@ -687,9 +829,9 @@ async function aiRun() {
     if (!items.length) throw {code: "empty"};
     ai.comment = res && typeof res.comment === "string" ? res.comment.trim() : "";
     const toItem = (x, hint) => { const g = num(x.grams), dbf = foodByName(x.db);
-      if (dbf) return {name: dbf.name, g: Math.round(g), on: !hint, hint, why: x.why ? String(x.why) : "", src: dbf.src === "own" || dbf.src === "label" || dbf.src === "off" ? dbf.src : "db", per: {kcal: dbf.kcal, p: dbf.p, f: dbf.f, c: dbf.c}};
+      if (dbf) return {name: dbf.name, g: Math.round(g), on: !hint, hint, why: x.why ? String(x.why) : "", src: dbf.src === "own" || dbf.src === "label" || dbf.src === "off" ? dbf.src : "db", per: {kcal: dbf.kcal, p: dbf.p, f: dbf.f, c: dbf.c, ...(dbf.fb !== undefined ? {fb: dbf.fb} : {})}};
       return {name: String(x.name), g: Math.round(g), on: !hint, hint, why: x.why ? String(x.why) : "", src: "ai",
-        per: {kcal: (num(x.kcal) || 0) / g * 100, p: (num(x.p) || 0) / g * 100, f: (num(x.f) || 0) / g * 100, c: (num(x.c) || 0) / g * 100}}; };
+        per: {kcal: (num(x.kcal) || 0) / g * 100, p: (num(x.p) || 0) / g * 100, f: (num(x.f) || 0) / g * 100, c: (num(x.c) || 0) / g * 100, ...(num(x.fb) !== null ? {fb: num(x.fb) / g * 100} : {})}}; };
     ai.items = items.map(x => toItem(x, false)).concat((Array.isArray(res.fats) ? res.fats : []).filter(x => x && num(x.grams) > 0 && (x.db || x.name)).map(x => toItem(Object.assign({name: x.db}, x), true)));
   } catch (e) {
     if (e && e.code === "not_granted") { sampleFn = null; add.mode = "base"; }
@@ -764,7 +906,7 @@ function exHistory(exId, beforeKey) {
   const out = [];
   for (const w of workouts()) {
     if (w.key === beforeKey) continue;
-    const sets = (w.sets && w.sets[exId] || []).filter(s => num(s.w) !== null && num(s.r) !== null && (s.done || w.done));
+    const sets = (w.sets && w.sets[exId] || []).filter(s => num(s.w) !== null && num(s.r) !== null && (s.done || w.done) && s.type !== "w");
     if (sets.length) out.push({date: w.date, key: w.key, sets, top: Math.max(...sets.map(s => num(s.w))), reps: sets.reduce((a, s) => a + num(s.r), 0), e1: Math.max(...sets.map(s => e1rm(num(s.w), num(s.r))))});
   }
   return out;
@@ -786,6 +928,9 @@ function advice(ex, dayId, curKey) {
   return {kind: "same", w: last.top};
 }
 const e1rm = (w, r) => (w && r ? w * (1 + Math.min(r, 12) / 30) : 0);
+// Типи підходів: робочий, розминковий (не рахується в прогресії й об’ємі), дроп-сет, до відмови
+const SET_TYPES = {"": {l: "", st: "", n: "робочий"}, w: {l: "Р", st: "background:var(--card2);border-radius:8px;color:var(--muted)", n: "розминковий"},
+  d: {l: "Д", st: "background:#13263d;border-radius:8px;color:var(--blue)", n: "дроп-сет"}, f: {l: "В", st: "background:#3a1d1f;border-radius:8px;color:var(--bad)", n: "до відмови"}};
 function viewGym() {
   const aw = activeWorkout();
   if (aw) return viewSession(aw);
@@ -808,7 +953,7 @@ function viewGym() {
   if (ws.length) {
     h += `<h2 style="margin:16px 2px 10px">Історія</h2><div class="card list">`;
     for (const w of ws.slice().reverse().slice(0, 30)) {
-      const vol = Object.values(w.sets || {}).flat().reduce((a, s) => a + (num(s.w) || 0) * (num(s.r) || 0), 0);
+      const vol = Object.values(w.sets || {}).flat().filter(s => s.type !== "w").reduce((a, s) => a + (num(s.w) || 0) * (num(s.r) || 0), 0);
       h += `<div class="li" data-act="hist" data-k="${w.key}"><div><div>${w.day === "A" ? "День А" : "День Б"}</div><div class="tiny muted">${human(w.date)}${w.mins ? " · " + w.mins + " хв" : ""}${w.avgRest ? " · відпочинок ~" + mmss(w.avgRest) : ""}</div></div><div class="muted small">${fmt(vol)} кг об’єму ›</div></div>`;
     }
     h += `</div>`;
@@ -824,7 +969,11 @@ function viewSession(w) {
    ${rs.avg ? `<div class="tiny muted">сер. відпочинок ${mmss(rs.avg)}</div>` : ""}</div></div>
    ${deloadActive() ? `<div class="hint up" style="margin-bottom:12px">🔋 Тиждень розвантаження до ${human(docs.deload.until)}: та сама робоча вага, підходів удвічі менше, запас 3–4 повторення.</div>` : ""}
    ${recoveryHtml(todayKey(), true)}
-   <div class="card small muted">Розминка: 5 хв кардіо. Суперсети (а + б) позначені синьою смугою: підхід «а», одразу або через хвилину «б», потім відпочинок. Натискай ✓ після кожного підходу — так рахується твій реальний відпочинок.</div>`;
+   ${(() => { const rr = recovery(todayKey());
+     if (w.adj) return `<div class="hint wu" style="margin-bottom:12px">🪶 Полегшене тренування: на 1 підхід менше в кожній вправі, вага −5%. <button class="add" style="padding:0 0 0 6px" data-act="w-adj" data-v="0">Скасувати</button></div>`;
+     if (rr && !rr.pending && rr.score < 40 && !deloadActive()) return `<div class="hint stall" style="margin-bottom:12px">Відновлення сьогодні низьке (${rr.score}%). Краще полегшити тренування — так ти не втратиш прогрес і швидше відновишся.<button class="btn full" style="margin-top:8px" data-act="w-adj" data-v="1">🪶 Полегшити: −1 підхід, −5% ваги</button></div>`;
+     return ""; })()}
+   <div class="card small muted">Розминка: 5 хв кардіо. Суперсети (а + б) позначені синьою смугою: підхід «а», одразу або через хвилину «б», потім відпочинок. Натискай ✓ після кожного підходу — так рахується твій реальний відпочинок. Номер підходу можна натиснути, щоб позначити тип: <b>Р</b> — розминковий (не впливає на прогресію), <b>Д</b> — дроп-сет, <b>В</b> — до відмови.</div>`;
   for (const ex of sessionEx(w)) {
     const tg = exTarget(ex, w.day, w.started), adv = advice(ex, w.day, w.key), sets = (w.sets && w.sets[ex.id]) || [];
     const hist = exHistory(ex.id, w.key), last = hist[hist.length - 1];
@@ -835,18 +984,21 @@ function viewSession(w) {
       <div class="tiny muted">${ex.sets} × ${tg.lo}–${tg.hi} · запас ${ex.rir} · ${ex.ss ? "суперсет із " + ex.ss : "відпочинок " + restTxt(ex.rest)}${ex.mus ? " · " + esc(ex.mus) : ""}</div>
       ${last ? `<div class="tiny muted">Минулого разу: ${fmt(last.top, 2)} кг × ${last.sets.map(s => s.r).join("/")}</div>` : ""}
       ${note ? `<div class="tiny" style="color:var(--blue)">📝 ${esc(note)}</div>` : ""}</div>
-      <button class="chip" style="padding:6px 10px;color:var(--text)" data-act="tech" data-v="${ex.id}">ℹ️ Техніка</button></div>`;
+      <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end"><button class="chip" style="padding:6px 10px;color:var(--text)" data-act="tech" data-v="${ex.id}">ℹ️ Техніка</button>
+      <button class="chip" style="padding:6px 10px;color:var(--text)" data-act="plates" data-v="${ex.id}">🏋️ Диски</button></div></div>`;
     const cn = (docs.nextw || {})[ex.id];
     if (cn) h += `<div class="hint up">🤖 Тренер: ${fmt(cn.w, 2)} кг${cn.note ? " — " + esc(cn.note) : ""}</div>`;
     else if (adv && adv.kind !== "same") h += `<div class="hint ${adv.kind}">${adv.txt}</div>`;
     const wwork = num(sets[0] && sets[0].w) ?? (adv ? adv.w : null);
     if (ex.warm === "full" && wwork) h += `<div class="hint wu">Розминка: ${[[.5, 8], [.7, 5], [.85, 2]].map(([k, r]) => fmt(round25(wwork * k), 1) + " кг × " + r).join(", ")}</div>`;
     if (ex.warm === "light") h += `<div class="hint wu">Перед вправою — один легкий розминковий підхід.</div>`;
-    const nSets = Math.max(deloadActive() ? Math.ceil(ex.sets / 2) : ex.sets, sets.length);
+    const nSets = Math.max(Math.max(1, (deloadActive() ? Math.ceil(ex.sets / 2) : ex.sets) - (w.adj ? 1 : 0)), sets.length);
     for (let i = 0; i < nSets; i++) {
       const s = sets[i] || {};
-      const cw = (docs.nextw || {})[ex.id], phW = cw ? fmt(cw.w, 2) : adv ? fmt(adv.w, 2) : "кг";
-      h += `<div class="setrow"><div class="n">${i + 1}</div>
+      const cw = (docs.nextw || {})[ex.id]; let bw = cw ? cw.w : adv ? adv.w : null; if (bw && w.adj) bw = Math.round(bw * 0.95 * 2) / 2;
+      const phW = bw ? fmt(bw, 2) : "кг";
+      const ty = SET_TYPES[s.type || ""];
+      h += `<div class="setrow"><button class="n" data-act="set-type" data-v="${ex.id}|${i}" aria-label="тип підходу" style="${ty.st}">${ty.l || i + 1}</button>
        <input type="number" inputmode="decimal" step="0.5" placeholder="${phW}" value="${s.w ?? ""}" data-set="${ex.id}|${i}|w" aria-label="вага, кг">
        <div class="muted" style="text-align:center">×</div>
        <input type="number" inputmode="numeric" placeholder="${tg.lo}–${tg.hi}" value="${s.r ?? ""}" data-set="${ex.id}|${i}|r" aria-label="повторення">
@@ -885,9 +1037,10 @@ function openAddEx(planDay) {
   $("#sheet").innerHTML = h; openSheet();
 }
 function attachEx(id, perm) {
-  if (addExPlan) { const d = addExPlan; savePlan(p => { if (!p[d].includes(id)) p[d].push(id); }); return; }
+  const en = (findEx(id) || {}).name || "вправа";
+  if (addExPlan) { const d = addExPlan; if (!planIds(d).includes(id)) planLog(`Додано до ${dayName(d)}: ${en}`); savePlan(p => { if (!p[d].includes(id)) p[d].push(id); }); return; }
   const w = activeWorkout(); if (!w) return;
-  if (perm) { savePlan(p => { if (!p[w.day].includes(id)) p[w.day].push(id); }); }
+  if (perm) { if (!planIds(w.day).includes(id)) planLog(`Додано до ${dayName(w.day)}: ${en}`); savePlan(p => { if (!p[w.day].includes(id)) p[w.day].push(id); }); }
   else { const d = docs[w.key]; d.extra = [...new Set([...(d.extra || []), id])]; save(w.key, d); }
 }
 /* ---------- редактор програми ---------- */
@@ -909,7 +1062,8 @@ function openPlan() {
   if (!ids.length) h += `<div class="small muted" style="padding:10px 0">У цьому дні немає вправ.</div>`;
   h += `</div><button class="btn pri full" data-act="pl-add" style="margin-top:12px">+ Додати вправу</button>
    <div class="tiny muted" style="margin:10px 0">Натисни на вправу, щоб змінити підходи, повторення чи відпочинок. ▲▼ — порядок, ✕ — прибрати з програми (історія залишиться).</div>
-   ${docs.plan || docs.prog ? `<button class="btn full" data-act="pl-reset">Повернути програму з таблиці</button>` : ""}`;
+   ${docs.plan || docs.prog ? `<button class="btn full" data-act="pl-reset">Повернути програму з таблиці</button>` : ""}
+   ${(() => { const lg = (docs.planlog && docs.planlog.items) || []; return lg.length ? `<details style="margin-top:14px"><summary style="font-weight:600;cursor:pointer">🗒 Журнал змін програми (${lg.length})</summary><div class="list" style="margin-top:6px">${lg.map(x => { const d = new Date(x.t); return `<div class="li"><div class="grow small">${esc(x.txt)}</div><span class="tiny muted" style="white-space:nowrap">${short(dKey(d))}</span></div>`; }).join("")}</div></details>` : ""; })()}`;
   $("#sheet").innerHTML = h; if (!$("#sheet").classList.contains("open")) openSheet();
 }
 function openExEdit(id) {
@@ -934,6 +1088,12 @@ function saveExEdit(id) {
     rir: $("#e-rir").value.trim() || b.rir, kind: $("#e-kind").value, grp: $("#e-grp").value || undefined};
   if (!ch.grp) delete ch.grp;
   if (rest > 0) ch.ss = ""; else if (b.ss) ch.ss = b.ss;
+  { const old = findEx(id), diff = [];
+    if (old.name !== ch.name) diff.push(`назва «${old.name}» → «${ch.name}»`);
+    if (old.sets !== ch.sets || old.lo !== ch.lo || old.hi !== ch.hi) diff.push(`${old.sets}×${old.lo}–${old.hi} → ${ch.sets}×${ch.lo}–${ch.hi}`);
+    if ((old.ss ? 0 : old.rest) !== ch.rest) diff.push(`відпочинок ${restTxt(old.ss ? 0 : old.rest)} → ${restTxt(ch.rest)}`);
+    if (old.rir !== ch.rir) diff.push(`запас ${old.rir} → ${ch.rir}`);
+    if (diff.length) planLog(`${ch.name}: ${diff.join(", ")}`); }
   if (b.custom) save("exlib", {items: exLib().map(x => x.id === id ? Object.assign({}, x, ch) : x)});
   else savePlan(p => { p.edits[id] = ch; });
   toast("Збережено"); openPlan();
@@ -953,6 +1113,34 @@ function tickElapsed() {
   const f = () => { const el = $("#elapsed"); if (!el) return clearInterval(elapsedT); const s = Math.floor((Date.now() - w.started) / 1000); el.textContent = Math.floor(s / 60) + ":" + pad(s % 60); };
   f(); elapsedT = setInterval(f, 1000);
 }
+/* ---------- калькулятор дисків ---------- */
+const PLATES = [25, 20, 15, 10, 5, 2.5, 1.25];
+function platesHtml(w, bar) {
+  if (!w) return `<div class="small muted">Вкажи вагу.</div>`;
+  const side = (w - bar) / 2;
+  if (side < 0) return `<div class="note">Вага менша за ${fmt(bar, 2)} кг — порожній гриф/платформа вже важча.</div>`;
+  let left = Math.round(side * 100) / 100; const used = [];
+  for (const p of PLATES) while (left >= p - 1e-9) { used.push(p); left = Math.round((left - p) * 100) / 100; }
+  const got = bar + 2 * used.reduce((a, b) => a + b, 0);
+  return `<div class="small muted" style="margin-bottom:6px">На кожну сторону (${fmt(side, 2)} кг):</div>
+   <div class="row wrap" style="gap:6px">${used.length ? used.map(p => `<span class="chip" style="font-size:15px;padding:6px 12px;color:var(--text);background:${p >= 20 ? "#13263d" : p >= 10 ? "#12301d" : "var(--card)"}">${fmt(p, 2)}</span>`).join("") : `<span class="small">нічого — лише гриф</span>`}</div>
+   ${left > 0 ? `<div class="note" style="margin-top:10px">Точно ${fmt(w, 2)} кг не скласти стандартними дисками — вийде ${fmt(got, 2)} кг (не вистачає ${fmt(left * 2, 2)} кг).</div>` : `<div class="tiny muted" style="margin-top:8px">Разом: ${fmt(got, 2)} кг.</div>`}`;
+}
+function openPlates(id) {
+  const ex = findEx(id), w = activeWorkout(); if (!ex) return;
+  const sets = (w && w.sets && w.sets[id]) || [], adv = advice(ex, w ? w.day : "A", w && w.key), cw = (docs.nextw || {})[id];
+  const tw = num((sets.find(s => num(s.w) !== null && s.type !== "w") || {}).w) ?? (cw ? cw.w : adv ? adv.w : null);
+  const bar = (docs.bars || {})[id] ?? 20;
+  $("#sheet").innerHTML = `<div class="grab"></div><div class="row between" style="margin-bottom:10px"><h2 style="margin:0">🏋️ Диски · ${esc(ex.name)}</h2><button class="muted" data-act="close">Закрити</button></div>
+   <div class="grid2"><label class="f"><span>Потрібна вага, кг</span><input type="number" inputmode="decimal" id="pl-w" value="${tw ?? ""}"></label>
+   <label class="f"><span>Гриф / платформа, кг</span><input type="number" inputmode="decimal" id="pl-b" data-ex="${id}" value="${bar}"></label></div>
+   <div class="card" style="background:var(--card2)" id="pl-res">${platesHtml(tw, bar)}</div>
+   <div class="tiny muted">Олімпійський гриф — 20 кг, жіночий — 15, EZ-гриф — 7–10. У тренажерах вкажи вагу порожньої платформи (часто вказана на табличці). Значення запам’ятовується для цієї вправи.</div>`;
+  openSheet();
+}
+/* ---------- журнал змін програми ---------- */
+function planLog(txt) { const items = [{t: Date.now(), txt}, ...((docs.planlog && docs.planlog.items) || [])].slice(0, 80); save("planlog", {items}); }
+const dayName = d => d === "A" ? "дня А" : "дня Б";
 /* ---------- таймер відпочинку ---------- */
 let restEnd = 0, restT = null, actx = null;
 function startRest(sec, label) {
@@ -979,7 +1167,7 @@ function openHist(key) {
     if (!s.length) continue;
     const gm = gapMap(w), all = ((w.sets || {})[ex.id] || []);
     h += `<tr><td class="muted">${ex.custom ? "+" : ex.n}</td><td>${esc(ex.name)}</td><td style="text-align:right;white-space:nowrap">${s.length ? s.map(x => { const gi = gm[ex.id + "|" + all.indexOf(x)];
-      return `${fmt(num(x.w), 2)}×${x.r ?? "—"}${gi ? `<div class="tiny">${gapHtml(gi, ex)}</div>` : ""}`; }).join("") : "—"}</td></tr>`; }
+      return `${x.type ? `<span class="tiny" style="${SET_TYPES[x.type].st};padding:0 4px;margin-right:3px">${SET_TYPES[x.type].l}</span>` : ""}${fmt(num(x.w), 2)}×${x.r ?? "—"}${gi ? `<div class="tiny">${gapHtml(gi, ex)}</div>` : ""}`; }).join("") : "—"}</td></tr>`; }
   h += `</table><div class="row" style="margin-top:14px"><button class="btn bad" data-act="w-del" data-k="${key}">Видалити</button><button class="btn grow" data-act="w-reopen" data-k="${key}">Редагувати</button></div>
    <button class="btn pri full" style="margin-top:8px" data-act="summary" data-k="${key}">📊 Підсумок і аналіз</button>`;
   $("#sheet").innerHTML = h; openSheet();
@@ -1142,6 +1330,7 @@ function viewProg() {
   const wt = weights().slice(-60);
   h += `<div class="card"><div class="row between"><h2 style="margin:0">Вага тіла</h2><span class="muted small">${wt.length ? fmt(wt[wt.length - 1].w, 1) + " кг" : ""}${wt.length > 1 ? " (" + ((wt[wt.length - 1].w - wt[0].w) >= 0 ? "+" : "−") + fmt(Math.abs(wt[wt.length - 1].w - wt[0].w), 1) + ")" : ""}</span></div>
    ${lineChart(wt.map(p => ({x: short(p.k), y: p.w})), "кг")}</div>`;
+  h += measCard();
   const all = [...PROGRAM.A.ex.map(e => ["A", findEx(e.id)]), ...PROGRAM.B.ex.map(e => ["B", findEx(e.id)]), ...exLib().map(e => ["", findEx(e.id)])];
   if (!all.some(([, e]) => e.id === progEx)) progEx = "A1";
   const hist = exHistory(progEx);
@@ -1155,6 +1344,22 @@ function viewProg() {
   h += `</div><div class="card"><h2>Приріст по всіх вправах</h2><table class="ptable">`;
   for (const [d, e] of all) { const hh = exHistory(e.id); h += `<tr><td class="muted">${d ? d + e.n : "+"}</td><td>${esc(e.name)}</td><td style="text-align:right;white-space:nowrap">${hh.length ? (hh.length > 1 ? "+" + fmt(hh[hh.length - 1].top - hh[0].top, 2) : fmt(hh[0].top, 2)) + " кг" : "—"}</td></tr>`; }
   return h + `</table></div>`;
+}
+
+/* ---------- заміри тіла ---------- */
+const MEAS = {waist: "Талія", chest: "Груди", arm: "Біцепс", hips: "Сідниці", thigh: "Стегно"};
+let measMetric = lsGet("forma-mm") || "waist";
+const measAll = () => ((docs.meas && docs.meas.items) || []).slice().sort((a, b) => a.k < b.k ? -1 : 1);
+function measCard() {
+  const all = measAll(), last = all[all.length - 1] || {}, today = all.find(x => x.k === todayKey()) || {};
+  const ser = all.filter(x => x[measMetric]).map(x => ({x: short(x.k), y: x[measMetric]}));
+  const first = ser[0], lst = ser[ser.length - 1];
+  return `<div class="card"><div class="row between"><h2 style="margin:0">📏 Заміри тіла, см</h2><span class="muted small">${last.k ? "останні: " + human(last.k) : ""}</span></div>
+   <div class="tiny muted" style="margin:4px 0 10px">Раз на 1–2 тижні, зранку, у тих самих місцях. На масі талія має рости повільніше за груди й руки.</div>
+   <div class="grid2">${Object.entries(MEAS).map(([k, n]) => `<label class="f"><span>${n}${last[k] && !today[k] ? ` <span class="tiny">(було ${fmt(last[k], 1)})</span>` : ""}</span><input type="number" inputmode="decimal" step="0.1" id="ms-${k}" value="${today[k] ?? ""}"></label>`).join("")}</div>
+   <button class="btn full" data-act="meas-save">Зберегти заміри за сьогодні</button>
+   ${all.length ? `<div class="seg" style="margin:12px 0 6px">${Object.entries(MEAS).map(([k, n]) => `<button data-act="mm" data-v="${k}" class="${k === measMetric ? "on" : ""}" style="font-size:12px">${n}</button>`).join("")}</div>
+   ${lineChart(ser, "см")}${ser.length > 1 ? `<div class="small muted">Зміна: ${(lst.y - first.y >= 0 ? "+" : "−") + fmt(Math.abs(lst.y - first.y), 1)} см з ${first.x}</div>` : ""}` : ""}</div>`;
 }
 
 /* ===================== КАЛЕНДАР І ПРОДУКТИВНІСТЬ ДНЯ ===================== */
@@ -1379,6 +1584,23 @@ function todayAdvice(r) {
   if (since === null) return ["y", "Тренувань ще не записано. Почни з легших ваг, щоб знайти робочі."];
   return since < 2 ? ["y", "Після останнього тренування минуло мало часу — м’язам варто відпочити ще день."] : since > 4 ? ["y", `Без тренування вже ${daysTxt(since)} — час іти в зал.`] : ["g", "За графіком саме час тренуватися."];
 }
+// Навантаження дня 0–100: робочі підходи (важчі, якщо до відмови) + активні калорії годинника
+function dayLoad(k) {
+  let sets = 0;
+  for (const w of workouts()) if (w.date === k) for (const arr of Object.values(w.sets || {})) for (const x of arr || [])
+    if (num(x.w) !== null && num(x.r) !== null && x.type !== "w") sets += 1 + (x.rir === 0 || x.type === "f" ? 0.5 : x.rir === 1 ? 0.25 : 0);
+  const h = day(k).health || {};
+  const v = sets * 3 + Math.min(35, (h.active || 0) / 20);
+  return v ? Math.min(100, Math.round(v)) : 0;
+}
+function loadTarget(r) { if (!r || r.pending) return null; return r.color === "g" ? [60, 90] : r.color === "y" ? [35, 60] : [0, 30]; }
+function sleepScore(k) {
+  const h = day(k).health || {}; if (!h.sleep) return null;
+  const prev = []; for (let i = 1; i <= 7; i++) { const x = day(addDays(k, -i)).health; if (x && x.sleep) prev.push(x.sleep); }
+  let sc = Math.min(100, h.sleep / 8 * 100);
+  if (prev.length >= 3) { const m = prev.reduce((a, b) => a + b, 0) / prev.length; if (Math.abs(h.sleep - m) > 1.5) sc -= 8; }
+  return Math.max(0, Math.round(sc));
+}
 function viewRec() {
   const k = todayKey(), h = day(k).health || {}, r = recovery(k), [ac, atxt] = todayAdvice(r);
   const hasAny = Object.keys(docs).some(x => x.startsWith("d-") && docs[x].health);
@@ -1389,6 +1611,13 @@ function viewRec() {
     <div class="small" style="color:${SC_COL[ac]}">${atxt}</div></div></div>
     ${pct === null ? `<div class="tiny muted" style="margin-top:8px">${hasAny ? "Оцінка з’явиться після 7 днів даних HRV або пульсу у спокої — це твоя особиста норма." : "Налаштуй щоденну передачу даних з Apple Watch — і відновлення рахуватиметься саме."}</div>
       <button class="btn ${hasAny ? "" : "pri"} full" style="margin-top:10px" data-act="health">${hasAny ? "Дані за сьогодні" : "⚡ Налаштувати Apple Watch"}</button>` : ""}</div>`;
+  // навантаження дня
+  { const ld = dayLoad(k), tg = loadTarget(r), l7 = []; for (let i = 1; i <= 7; i++) l7.push(dayLoad(addDays(k, -i)));
+    const avg = l7.reduce((a, b) => a + b, 0) / 7, col = !tg ? "var(--acc2)" : ld > tg[1] ? "var(--warn)" : ld >= tg[0] ? "var(--acc)" : "var(--blue)";
+    html += `<div class="card"><div class="ringwrap">${bigRing(ld, col, "навантаження")}<div class="grow">
+      <div style="font-weight:700;margin-bottom:6px">Навантаження сьогодні</div>
+      <div class="small">${tg ? `Ціль за відновленням: <b>${tg[0]}–${tg[1]}%</b>. ${ld > tg[1] ? "Ти вже вийшов за неї — на сьогодні досить, далі відпочинок." : ld >= tg[0] ? "Ти в цілі 👍" : tg[1] <= 30 ? "Сьогодні день для відпочинку — прогулянка, розтяжка." : "Ще є запас: " + (dayLoad(k) < 30 ? "повноцінне тренування вкладеться в ціль." : "можна додати легку активність.")}` : "Ціль з’явиться, коли рахуватиметься відновлення."}</div>
+      <div class="tiny muted" style="margin-top:6px">Середнє за 7 днів: ${fmt(avg)}%. Рахується з робочих підходів (до відмови — важче) і активних калорій годинника.</div></div></div></div>`; }
   // складники
   const hb = baseStats(k, "hrv", 60), rb = baseStats(k, "rhr", 60);
   const sl = []; for (let i = 0; i < 7; i++) { const x = day(addDays(k, -i)).health; if (x && x.sleep) sl.push(x.sleep); }
@@ -1398,7 +1627,7 @@ function viewRec() {
   html += `<div class="card"><h2>З чого складається</h2><div class="list">
    ${row("🫀", "HRV (варіабельність пульсу)", h.hrv ? h.hrv + " мс" : "—", hb ? `твоя норма ${fmt(hb.m)} мс · вище — краще` : "потрібно 7 днів даних", h.hrv && hb ? (h.hrv >= hb.m * 0.95 ? "var(--acc)" : h.hrv >= hb.m * 0.85 ? "var(--warn)" : "var(--bad)") : "")}
    ${row("❤️", "Пульс у спокої", h.rhr ? h.rhr + " уд/хв" : "—", rb ? `твоя норма ${fmt(rb.m)} · нижче — краще` : "потрібно 7 днів даних", h.rhr && rb ? (h.rhr <= rb.m + 2 ? "var(--acc)" : h.rhr <= rb.m + 5 ? "var(--warn)" : "var(--bad)") : "")}
-   ${row("😴", "Сон минулої ночі", h.sleep ? fmt(h.sleep, 1) + " год" : "—", sl.length ? `недосип за тиждень: ${fmt(debt, 1)} год (від 8 год на ніч)` : "норма 7–9 год", h.sleep ? (h.sleep >= 7 ? "var(--acc)" : h.sleep >= 6 ? "var(--warn)" : "var(--bad)") : "")}
+   ${row("😴", "Сон минулої ночі", h.sleep ? fmt(h.sleep, 1) + " год" : "—", (sleepScore(k) !== null ? `оцінка сну ${sleepScore(k)}% · ` : "") + (sl.length ? `недосип за тиждень: ${fmt(debt, 1)} год (від 8 год на ніч)` : "норма 7–9 год"), h.sleep ? (h.sleep >= 7 ? "var(--acc)" : h.sleep >= 6 ? "var(--warn)" : "var(--bad)") : "")}
    ${row("🏋️", "Тренувальне навантаження", L.acute ? fmt(L.acute, 1) + " підх." : "—", L.ratio ? `за 7 днів; співвідношення до середнього за 4 тижні: ${fmt(L.ratio, 2)}${L.ratio > 1.5 ? " — різкий стрибок, ризик перевтоми" : L.ratio < 0.7 ? " — менше звичного" : " — у нормі"}` : "фракційні підходи за 7 днів; порівняння зі звичним — після 4 тижнів тренувань", L.ratio ? (L.ratio > 1.5 ? "var(--bad)" : L.ratio > 1.3 ? "var(--warn)" : "var(--acc)") : "")}
    ${row("👣", "Кроки сьогодні", h.steps !== undefined ? fmt(h.steps) : "—", "легка активність прискорює відновлення", h.steps !== undefined ? (h.steps >= 7000 ? "var(--acc)" : "var(--warn)") : "")}
   </div></div>`;
@@ -1437,7 +1666,7 @@ function exMuscles(e) { if (e.grp) return {[e.grp]: 1}; return BASE_MUS[e.id] ||
 function weekVolume(from, to) {
   const v = {};
   for (const w of workouts()) { if (!w.done || w.date < from || w.date > to) continue;
-    for (const [id, arr] of Object.entries(w.sets || {})) { const e = findEx(id); if (!e) continue; const n = (arr || []).filter(x => num(x.w) !== null && num(x.r) !== null).length; if (!n) continue;
+    for (const [id, arr] of Object.entries(w.sets || {})) { const e = findEx(id); if (!e) continue; const n = (arr || []).filter(x => num(x.w) !== null && num(x.r) !== null && x.type !== "w").length; if (!n) continue;
       for (const [g, k] of Object.entries(exMuscles(e))) v[g] = (v[g] || 0) + n * k; } }
   return v;
 }
@@ -1599,7 +1828,8 @@ let healthMetric = lsGet("forma-hm") || "rhr";
 // Формат команди: active=520;steps=8400;rhr=58;hr=92;sleep=7,5;wkcal=310 (також розуміє JSON)
 function parseHealth(txt) {
   if (!txt) return null; const out = {};
-  try { const o = JSON.parse(txt); for (const k of Object.keys(HF)) if (num(o[k]) !== null) out[k] = num(o[k]); } catch (e) {
+  const cl = v => { let t = String(v ?? "").replace(/[\s  ]/g, ""); t = /^\d{1,3}(,\d{3})+(\.\d+)?$/.test(t) ? t.replace(/,/g, "") : t; return num(t); };
+  try { const o = JSON.parse(txt); if (!o || typeof o !== "object") throw 0; for (const k of Object.keys(HF)) if (cl(o[k]) !== null && cl(o[k]) >= 0) out[k] = cl(o[k]); } catch (e) {
     for (const m of String(txt).matchAll(/(active|steps|rhr|hrv|hr|sleep|wkcal|weight)\s*[=:]\s*([\d\s.,]+)/gi)) { const v = num(m[2].replace(/\s/g, "")); if (v !== null) out[m[1].toLowerCase()] = v; }
   }
   if (out.sleep > 24) out.sleep = Math.round(out.sleep / 6) / 10; // у хвилинах → години
@@ -1617,14 +1847,16 @@ function healthHints(k) {
 }
 function healthCard(k) {
   const h = day(k).health;
-  const pasteBtn = k === todayKey() ? `<button class="btn pri full" style="margin-top:10px" data-act="h-clip">📋 Вставити з годинника</button>` : "";
-  if (!h) return `<div class="card"><div class="row" data-act="health" style="cursor:pointer"><div class="grow"><div style="font-weight:600">❤️ Активність і здоров’я</div><div class="tiny muted">Дані з Apple Watch: калорії, пульс, HRV, кроки, сон</div></div><span class="add">+ Вручну</span></div>${pasteBtn}</div>`;
+  const sc = syncCfg(), on = !!(sc.url && sc.token);
+  const syncLine = on ? `<div class="tiny muted" style="margin-top:8px">🔄 Автоперенесення увімкнено${sc.last ? " · оновлено " + agoTxt(sc.last) : ""}</div>` : "";
+  if (!h) return `<div class="card"><div class="row" data-act="health" style="cursor:pointer"><div class="grow"><div style="font-weight:600">❤️ Активність і здоров’я</div><div class="tiny muted">Дані з Apple Watch: калорії, пульс, HRV, кроки, сон</div></div><span class="add">+ Вручну</span></div>
+   ${k === todayKey() ? (on ? `<button class="btn full" style="margin-top:10px" data-act="h-sync">🔄 Оновити з годинника</button>` : `<button class="btn pri full" style="margin-top:10px" data-act="health">${OWN ? "⚡ Налаштувати автоперенесення" : "📸 Внести зі скріншотів"}</button>`) : ""}${syncLine}</div>`;
   const t = targets(k);
   return `<div class="card" data-act="health" style="cursor:pointer"><div class="row between" style="margin-bottom:6px"><div style="font-weight:600">❤️ Активність і здоров’я</div><span class="muted small">змінити ›</span></div>
    ${recoveryHtml(k, true)}
    <div class="row wrap small" style="gap:12px">${Object.entries(HF).filter(([key]) => h[key] !== undefined && key !== "weight").map(([key, [ic, , u]]) => `<span>${ic} ${fmt(h[key], key === "sleep" ? 1 : 0)}${u ? " " + u : ""}</span>`).join("")}</div>
    ${t.watch ? `<div class="tiny muted" style="margin-top:6px">Норма на сьогодні враховує ${fmt(h.active * (profile().watchPct ?? 100) / 100)} з ${fmt(h.active)} активних ккал годинника (годинник завищує витрату в середньому на ~28%).</div>` : ""}
-   ${healthHints(k).map(([c, x]) => `<div class="hint ${c}">${x}</div>`).join("")}${pasteBtn.replace("📋 Вставити з годинника", "📋 Оновити з годинника").replace("btn pri", "btn")}</div>`;
+   ${healthHints(k).map(([c, x]) => `<div class="hint ${c}">${x}</div>`).join("")}${syncLine}</div>`;
 }
 function applyHealth(r) {
   const k = "d-" + todayKey(), d = JSON.parse(JSON.stringify(day(todayKey())));
@@ -1632,28 +1864,100 @@ function applyHealth(r) {
   d.health = Object.assign({}, d.health || {}, r); save(k, d); curDay = todayKey(); render();
   toast("Дані з Apple Watch записано ✓");
 }
-function openHealth(k) {
-  const h = day(k).health || {};
-  const shortcutUrl = OWN ? location.origin + location.pathname + "?h=" : "";
+function openHealth(k, pre) {
+  const h = Object.assign({}, day(k).health || {}, day(k).weight ? {weight: day(k).weight} : {}, pre || {});
+  const sc = syncCfg(), on = !!(sc.url && sc.token);
+  const shots = sampleFn && sampleImages && navigator.onLine;
   $("#sheet").innerHTML = `<div class="grab"></div><div class="row between" style="margin-bottom:10px"><h2 style="margin:0">Дані з Apple Watch · ${k === todayKey() ? "сьогодні" : human(k)}</h2><button class="muted" data-act="close">Закрити</button></div>
+   ${on ? `<button class="btn pri full" style="margin-bottom:10px" data-act="h-sync">🔄 Оновити з годинника зараз</button>` : ""}
+   ${shots ? `<label class="btn full" style="display:block;text-align:center;margin-bottom:6px">📸 Заповнити зі скріншотів «Фітнес» / «Здоров’я»<input type="file" accept="image/*" multiple data-hshot="${k}" hidden></label>
+     <div class="tiny muted" style="margin-bottom:12px" id="h-shot-st">Зроби 1–4 скріншоти (кільця активності, пульс, сон) — ШІ сам розпізнає цифри. Перевір і натисни «Зберегти».</div>` : ""}
    <div class="grid2">${Object.entries(HF).map(([key, [ic, lbl, u]]) => `<label class="f"><span>${ic} ${lbl}${u ? ", " + u : ""}</span><input type="number" inputmode="decimal" id="h-${key}" value="${h[key] ?? ""}"></label>`).join("")}</div>
    <button class="btn pri full" data-act="h-save">Зберегти</button>
-   <details style="margin-top:14px"><summary style="font-weight:600;cursor:pointer">⚡ Перенести одним натисканням (команда iPhone)</summary>
-   <div class="small" style="margin-top:8px">Вебзастосунок не має прямого доступу до «Здоров’я», тому дані передає команда в застосунку «Команди». Налаштовується один раз:</div>
-   <ol class="small" style="padding-left:20px;margin:8px 0">
-    <li>Відкрий «Команди» → «+» і назви команду «Форма».</li>
-    <li>Додай дію «Знайти зразки здоров’я» (Find Health Samples): тип «Активна енергія», дата початку — «Сьогодні». Далі дія «Обчислити статистику» → «Сума».</li>
-    <li>Так само додай «Кроки» (сума), «Пульс у спокої», «Варіабельність пульсу» і «Вага» (для них — останнє значення: сортування за датою, ліміт 1), за бажанням «Пульс» (середнє) та «Аналіз сну».</li>
-    <li>Додай дію «Текст» і склади рядок: <code>active=</code>[сума енергії]<code>;steps=</code>[кроки]<code>;rhr=</code>[пульс у спокої]<code>;hrv=</code>[HRV]<code>;weight=</code>[вага]<code>;hr=</code>[пульс]<code>;sleep=</code>[сон, год]</li>
-    <li>Додай дію «Скопіювати в буфер обміну» з цим текстом і, за бажанням, «Показати сповіщення» з текстом «Дані для «Форми» готові».</li>
-    <li>Відкрий «Форму» й натисни на головному екрані «📋 Вставити з годинника».</li>
+   ${!OWN ? `<div class="note" style="margin-top:14px">Автоперенесення через сервер працює у версії «Форми» на твоєму сайті. Тут найшвидше — <b>📸 скріншоти</b>: Claude сам розпізнає цифри.</div>` : ""}
+   <details style="margin-top:14px;${OWN ? "" : "display:none"}" ${on ? "" : "open"}><summary style="font-weight:600;cursor:pointer">⚡ Автоперенесення без копіювання${on ? " · увімкнено ✓" : ""}</summary>
+   <div class="small" style="margin-top:8px">Сайт не має прямого доступу до «Здоров’я», тому дані один раз за ранок (і після тренування) надсилає команда iPhone на твій безплатний сервер, а «Форма» сама забирає їх щоразу, коли ти її відкриваєш. Нічого копіювати й вставляти не треба.</div>
+   <div style="font-weight:600;margin:12px 0 4px">1. Сервер (один раз, ~10 хв)</div>
+   <ol class="small" style="padding-left:20px;margin:0">
+    <li>Зареєструйся на <b>dash.cloudflare.com</b> (безплатно, можна з телефона).</li>
+    <li>«Storage &amp; Databases» → «KV» → «Create» → назва <code>forma-health</code>.</li>
+    <li>«Workers &amp; Pages» → «Create» → «Start with Hello World» → назва <code>forma-health</code> → «Deploy» → «Edit code». Заміни весь код на файл <code>worker/health-sync.js</code> з репозиторію «Форми» → «Deploy».</li>
+    <li>У воркері: «Settings» → «Bindings» → «Add» → «KV namespace»: назва змінної <code>HEALTH</code>, сховище <code>forma-health</code>.</li>
+    <li>«Settings» → «Variables and Secrets» → «Add» → тип «Secret», назва <code>TOKEN</code>, значення — придумай довгий пароль.</li>
+    <li>Скопіюй адресу воркера (вигляду <code>https://forma-health.ім’я.workers.dev</code>) і впиши її разом із паролем нижче.</li>
    </ol>
-   <div class="small" style="margin:8px 0"><b>Щоб команда запускалася сама:</b> «Команди» → «Автоматизація» → «+» → «Час доби» → 21:00, щодня → «Запускати одразу» → вибери команду «Форма». Увечері дані будуть уже скопійовані — лишиться відкрити «Форму» й натиснути «Вставити з годинника».</div>
-   <div class="tiny muted">Назви дій можуть трохи відрізнятися залежно від версії iOS. Оцінка відновлення з’явиться після 7 днів даних пульсу у спокої або HRV.</div>
-   <label class="f" style="margin-top:10px"><span>Текст із команди</span><textarea id="h-paste" placeholder="active=520;steps=8400;rhr=58;hr=92"></textarea></label>
-   <button class="btn full" data-act="h-parse">Розпізнати</button></details>
+   <label class="f" style="margin-top:10px"><span>Адреса сервера</span><input type="text" id="s-url" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="https://forma-health….workers.dev" value="${esc(sc.url || "")}"></label>
+   <label class="f"><span>Пароль (TOKEN)</span><input type="text" id="s-token" autocapitalize="off" autocomplete="off" spellcheck="false" value="${esc(sc.token || "")}"></label>
+   <div class="row"><button class="btn grow" data-act="s-test">Перевірити</button><button class="btn pri grow" data-act="s-save">Зберегти</button></div>
+   <div style="font-weight:600;margin:14px 0 4px">2. Команда «Форма» в «Командах» (один раз)</div>
+   <ol class="small" style="padding-left:20px;margin:0">
+    <li>«Команди» → «+» → назва «Форма».</li>
+    <li>«Знайти зразки здоров’я» (Find Health Samples): «Активна енергія», дата початку — сьогодні → «Обчислити статистику» → «Сума». Так само «Кроки» (сума). Для «Пульс у спокої», «Варіабельність пульсу» і «Вага» — останнє значення (сортування за датою, ліміт 1). За бажанням — «Пульс» (середнє) і «Аналіз сну».</li>
+    <li>Дія «Текст»: <code>active=</code>[енергія]<code>;steps=</code>[кроки]<code>;rhr=</code>[пульс у спокої]<code>;hrv=</code>[HRV]<code>;weight=</code>[вага]<code>;hr=</code>[пульс]<code>;sleep=</code>[сон, год]</li>
+    <li>Дія «Отримати вміст URL» (Get Contents of URL): адреса <code>${esc((sc.url || "https://…workers.dev").replace(/\/+$/, ""))}/health</code>, «Метод» — POST, «Заголовки»: <code>x-token</code> = твій пароль, «Тіло запиту» — «Файл» → змінна «Текст».</li>
+   </ol>
+   <div style="font-weight:600;margin:14px 0 4px">3. Щоб запускалося саме</div>
+   <div class="small">«Команди» → «Автоматизація» → «+» → <b>«Будильник» → «Вимкнено»</b> (вранці, коли вже є сон і пульс у спокої), а також <b>«Apple Watch» → «Тренування завершено»</b> і за бажанням <b>«Час доби» 21:00</b>. Для кожної — «Запускати одразу» й вимкни «Сповіщати під час запуску», дія — команда «Форма».</div>
+   <div class="tiny muted" style="margin-top:8px">iOS дає читати «Здоров’я» лише на розблокованому телефоні, тому автоматизація, що спрацювала на заблокованому екрані, може надіслати порожні дані — наступна її виправить. Назви пунктів можуть трохи відрізнятися залежно від версії iOS.</div></details>
    <div class="tiny muted" style="margin-top:12px">Підказки про пульс і сон — орієнтир для тренувань, а не медична оцінка. Якщо щось турбує — звернися до лікаря.</div>`;
-  openSheet();
+  if (!$("#sheet").classList.contains("open")) openSheet();
+}
+/* ---------- автоперенесення: сервер ← команда iPhone, «Форма» забирає сама ---------- */
+function syncCfg() { try { return JSON.parse(lsGet("forma-sync") || "null") || {}; } catch (e) { return {}; } }
+function agoTxt(t) { const m = Math.round((Date.now() - t) / 60000); return m < 1 ? "щойно" : m < 60 ? m + " хв тому" : m < 1440 ? Math.round(m / 60) + " год тому" : daysTxt(Math.round(m / 1440)) + " тому"; }
+let syncBusy = false, syncAt = 0, syncTried = false;
+async function syncFetch(cfg, since) {
+  if (!navigator.onLine) throw {code: "offline"};
+  const ctl = new AbortController(), tm = setTimeout(() => ctl.abort(), 12000);
+  try {
+    const r = await fetch(cfg.url.replace(/\/+$/, "") + "/health?since=" + since, {headers: {"x-token": cfg.token}, signal: ctl.signal, cache: "no-store"});
+    if (r.status === 401) throw {code: "auth"};
+    if (!r.ok) throw {code: "http", status: r.status};
+    const j = await r.json(); if (!j || typeof j.days !== "object") throw {code: "format"};
+    return j.days;
+  } finally { clearTimeout(tm); }
+}
+async function syncHealth(force) {
+  const c = syncCfg(); if (!c.url || !c.token || syncBusy || !Store.loaded) return null;
+  if (!force && Date.now() - syncAt < 60000) return null;
+  syncBusy = true; syncAt = Date.now();
+  try {
+    const n = mergeHealthDays(await syncFetch(c, addDays(todayKey(), -14)));
+    const cc = syncCfg(); cc.last = Date.now(); lsSet("forma-sync", JSON.stringify(cc));
+    if (n) softRender();
+    return {n};
+  } catch (e) { return {err: (e && e.code) || "net"}; }
+  finally { syncBusy = false; }
+}
+function mergeHealthDays(days) {
+  let n = 0;
+  for (const [k, raw] of Object.entries(days || {})) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(k) || k > todayKey()) continue;
+    const r = parseHealth(JSON.stringify(raw)); if (!r) continue;
+    const d = JSON.parse(JSON.stringify(day(k))), before = JSON.stringify(d);
+    if (r.weight) { if (!d.weight || d.wsrc === "watch") { d.weight = r.weight; d.wsrc = "watch"; } delete r.weight; }
+    if (Object.keys(r).length) d.health = Object.assign({}, d.health || {}, r);
+    if (JSON.stringify(d) !== before) { save("d-" + k, d); n++; }
+  }
+  return n;
+}
+const SYNC_ERR = {auth: "Пароль не підходить — перевір TOKEN", offline: "Немає інтернету", http: "Сервер відповів з помилкою — перевір адресу й KV-сховище HEALTH", format: "За цією адресою не сервер «Форми»", net: "Не вдалося з’єднатися з сервером — перевір адресу"};
+async function hShots(files, k) {
+  const st = $("#h-shot-st"); if (st) st.innerHTML = '<span class="spin"></span> Розпізнаю скріншоти…';
+  try {
+    const res = await sampleFn.json(`Це скріншоти з iPhone (застосунки «Фітнес», «Здоров’я», «Сон» або Apple Watch) за ${k === todayKey() ? "сьогодні" : human(k)}. Знайди на них такі показники й поверни ЛИШЕ JSON без markdown, тільки з полями, які справді видно:
+{"active": активні калорії, ккал (червоне кільце «Рух» / «Активна енергія»),"steps": кроки,"rhr": пульс у спокої, уд/хв,"hr": середній пульс за день, уд/хв,"hrv": варіабельність пульсу, мс,"sleep": тривалість сну в годинах десятковим числом (7 год 30 хв = 7.5),"wkcal": активні калорії тренування, ккал,"weight": вага, кг}
+Числа без одиниць. Не вигадуй і не оцінюй — якщо показника немає на скріншотах, пропусти поле.`, {modelTier: "default", images: files.slice(0, 4)});
+    const r = parseHealth(JSON.stringify(res || {}));
+    if (!r) throw {code: "empty"};
+    const vals = {}; for (const key of Object.keys(HF)) { const el = $("#h-" + key); vals[key] = el && el.value !== "" ? num(el.value) : undefined; }
+    for (const [key, v] of Object.entries(r)) vals[key] = v;
+    const pre = {}; for (const [key, v] of Object.entries(vals)) if (v !== undefined && v !== null) pre[key] = v;
+    openHealth(k, pre);
+    toast("Розпізнано: " + Object.keys(r).length + " показн. — перевір і збережи");
+  } catch (e) {
+    const s2 = $("#h-shot-st"); if (s2) s2.textContent = e && e.code === "rate_limited" ? "Забагато запитів поспіль — спробуй за хвилину." : e && e.code === "empty" ? "Не знайшов показників на скріншотах. Спробуй інші екрани." : "ШІ зараз недоступний. Введи цифри вручну.";
+  }
 }
 function healthChartCard() {
   const series = [];
@@ -1679,6 +1983,8 @@ function viewMe() {
    ${adaptiveStatus()}
    <label class="f"><span>Активні калорії Apple Watch у нормі (коли адаптивна норма ще не готова)</span><select data-p="watchPct">${[[0, "Не враховувати (рекомендовано)"], [50, "Враховувати 50%"], [100, "Враховувати 100%"]].map(([v, n]) => opt(v, p.watchPct ?? (p.useWatch ? 100 : 0), n)).join("")}</select></label>
    <div class="tiny muted" style="margin:-4px 0 10px">Пульс і кроки годинник міряє точно, а «спалені калорії» — з похибкою близько 28%, тому повністю додавати їх до норми не варто.</div>
+   <label class="f"><span>Калорії в дні тренувань</span><select data-p="trainBonus">${[[0, "Однаково щодня"], [150, "+150 у день тренування, −60 в інші"], [250, "+250 у день тренування, −100 в інші"], [350, "+350 у день тренування, −140 в інші"]].map(([v, n]) => opt(v, p.trainBonus || 0, n)).join("")}</select></label>
+   <div class="tiny muted" style="margin:-4px 0 10px">Як «модифікатори витрати» в MacroFactor: більше їжі в день тренування, трохи менше в інші — за тиждень сума та сама. Не діє, коли норма рахується за годинником.</div>
    <label class="row" style="margin-top:4px"><input type="checkbox" data-p="novice" ${p.novice ? "checked" : ""} style="width:22px;height:22px;accent-color:var(--acc2)"><span>Новачок (до 6 місяців тренувань): у день А перші два місяці 6–8 повторень замість 4–6</span></label>
   </div>
   <div class="card"><h2>Твоя денна норма</h2><div class="grid2">
@@ -1686,6 +1992,9 @@ function viewMe() {
    <div class="stat"><span class="tiny muted">Білки</span><b style="color:var(--p)">${t.prot} г</b></div><div class="stat"><span class="tiny muted">Жири</span><b style="color:var(--f)">${t.fat} г</b></div>
    <div class="stat" style="grid-column:span 2"><span class="tiny muted">Вуглеводи</span><b style="color:var(--c)">${t.carb} г</b></div></div>
    <div class="tiny muted" style="margin-top:8px">Формула Міффліна — Сан-Жеора × коефіцієнт активності. Це орієнтир: якщо вага за 2–3 тижні не змінюється в потрібний бік, скоригуй норму на 100–150 ккал.</div></div>
+  <div class="card"><h2>Apple Watch</h2>${(() => { const c = syncCfg(); return c.url && c.token ? `<div class="small" style="margin-bottom:10px">🔄 Автоперенесення увімкнено${c.last ? " · оновлено " + agoTxt(c.last) : ""}. «Форма» забирає дані щоразу, коли ти її відкриваєш.</div><div class="row"><button class="btn grow" data-act="h-sync">Оновити зараз</button><button class="btn grow" data-act="health">Налаштування</button></div>`
+     : !OWN ? `<div class="small muted" style="margin-bottom:10px">Зроби скріншоти «Фітнесу» чи «Здоров’я» — Claude сам розпізнає калорії, кроки, пульс, HRV і сон.</div><button class="btn pri full" data-act="health">📸 Внести зі скріншотів</button>`
+     : `<div class="small muted" style="margin-bottom:10px">Налаштуй один раз — і калорії, кроки, пульс, HRV, сон і вага з годинника з’являтимуться в «Формі» самі, без копіювання.</div><button class="btn pri full" data-act="health">⚡ Налаштувати автоперенесення</button>`; })()}</div>
   <div class="card"><h2>Правила програми</h2>${RULES.map(r => `<div class="small" style="margin-bottom:8px">• ${esc(r)}</div>`).join("")}</div>
   <div class="card"><h2>Дані</h2><div class="small muted" style="margin-bottom:10px">${Store.mode === "db" ? "Дані зберігаються у твоєму акаунті Claude і доступні з будь-якого пристрою. Щоб перенести їх в офлайн-версію, скопіюй копію тут і віднови її там." : OWN ? "Дані зберігаються на цьому телефоні, і застосунок працює без інтернету. Раз на тиждень роби резервну копію й тримай її в Нотатках." : "Хмарне збереження недоступне — дані лише в цьому браузері. Роби резервні копії."}</div>
    <div class="row"><button class="btn grow" data-act="backup">Скопіювати копію</button><button class="btn grow" data-act="restore">Відновити з копії</button></div></div>
@@ -1702,6 +2011,7 @@ function setProfile(field, raw) {
   if (field === "novice") { p.novice = raw; if (raw && !p.noviceStart) p.noviceStart = todayKey(); }
   else if (field === "adaptive") { p.adaptive = !!raw; if (raw) setTimeout(maybeUpdateTDEE, 50); }
   else if (field === "watchPct") { p.watchPct = +raw; p.useWatch = false; }
+  else if (field === "trainBonus") p.trainBonus = +raw || 0;
   else if (field === "sex" || field === "goal") p[field] = raw;
   else if (field === "kcalOverride") p.kcalOverride = num(raw) && num(raw) > 800 ? Math.round(num(raw)) : null;
   else if (field === "weight") { const v = num(raw); if (v && v > 25 && v < 300) { p.weight = v; const k = "d-" + todayKey(); const d = JSON.parse(JSON.stringify(day(todayKey()))); d.weight = v; save(k, d); } }
@@ -1743,17 +2053,40 @@ document.addEventListener("click", async e => {
       if (!name || kc === null) return toast("Вкажи назву і калорійність");
       const pf = add.own || {};
       const f = {name, kcal: kc, p: num($("#o-p").value) || 0, f: num($("#o-f").value) || 0, c: num($("#o-c").value) || 0, unit: null, src: pf.src === "label" || pf.src === "off" ? pf.src : "own"};
+      if (num($("#o-fb").value) !== null) f.fb = num($("#o-fb").value);
       if (pf.bc) f.bc = pf.bc;
       const pl = plaus(f);
-      if (!pl.ok && !pf.warned) { add.own = Object.assign({}, pf, {name, kcal: kc, p: f.p, f: f.f, c: f.c, warned: true, warn: kc > 902 ? "Більше 900 ккал на 100 г не буває — перевір цифри." : `Перевір цифри: за БЖВ виходить ≈ ${fmt(pl.calc)} ккал, а вказано ${fmt(kc)}. Можливо, помилка або продукт містить алкоголь чи багато клітковини.`}); drawAdd(); break; }
+      if (!pl.ok && !pf.warned) { add.own = Object.assign({}, pf, {name, kcal: kc, p: f.p, f: f.f, c: f.c, fb: f.fb, warned: true, warn: kc > 902 ? "Більше 900 ккал на 100 г не буває — перевір цифри." : `Перевір цифри: за БЖВ виходить ≈ ${fmt(pl.calc)} ккал, а вказано ${fmt(kc)}. Можливо, помилка або продукт містить алкоголь чи багато клітковини.`}); drawAdd(); break; }
       save("custom", {items: [f, ...customFoods().filter(x => x.name !== name && !(f.bc && x.bc === f.bc))]});
       add.own = null; add.pick = f; add.g = 100; drawAdd(); break;
     }
     case "custom-del": { const items = customFoods().slice(); items.splice(+el.dataset.i, 1); save("custom", {items}); drawAdd(); break; }
     case "ai-run": aiRun(); break;
+    case "ai-setup": $("#sheet").innerHTML = `<div class="grab"></div><div class="row between" style="margin-bottom:10px"><h2 style="margin:0">📷 Фото їжі через ШІ</h2><button class="muted" data-act="close">Закрити</button></div>` + aiSetupHtml(true); openSheet(); break;
+    case "ai-q": { const q = add.q.trim(); add.mode = "ai"; add.ai.text = q; drawAdd(); if (sampleFn && navigator.onLine && q) aiRun(); break; }
     case "ai-noimg": add.ai.img = null; drawAdd(); break;
     case "ai-add": { const sel = add.ai.items.filter(x => x.on && x.g > 0); for (const x of sel) addEntry(x.name, x.per, x.g, null, x.src); toast("Додано продуктів: " + sel.length); closeSheet(); break; }
     case "ai-fat": { const fc = FAT_CHIPS[+v], dbf = foodByName(fc[0]); if (!dbf) break; add.ai.items.push({name: dbf.name, g: fc[1], on: true, src: "db", per: {kcal: dbf.kcal, p: dbf.p, f: dbf.f, c: dbf.c}}); drawAdd(); break; }
+    case "fav": { const p = add && add.pick; if (!p) break; const items = favFoods().filter(f => f.name !== p.name);
+      if (!isFav(p.name)) items.unshift({name: p.name, kcal: p.kcal, p: p.p, f: p.f, c: p.c, unit: p.unit || null, ...(p.fb !== undefined ? {fb: p.fb} : {}), ...(p.src ? {src: p.src} : {})});
+      save("fav", {items: items.slice(0, 30)}); toast(isFav(p.name) ? "Додано в улюблене ⭐" : "Прибрано з улюбленого"); drawAdd(); break; }
+    case "meal-repeat": { const m = el.dataset.meal, src = (day(el.dataset.k).foods || []).filter(x => x.meal === m);
+      setDay(d => { for (const x of src) d.foods.push(copyFood(x, m)); }); toast("Додано як учора: " + src.length + " продукт."); render(); break; }
+    case "combo-new": { const m = el.dataset.meal, items = day(curDay).foods.filter(x => x.meal === m), nm = {b: "Мій сніданок", l: "Мій обід", d: "Моя вечеря", s: "Мій перекус"}[m];
+      $("#sheet").innerHTML = `<div class="grab"></div><h2>Зберегти як страву</h2><div class="small muted" style="margin-bottom:10px">${items.map(x => esc(x.name) + " " + fmt(x.g) + " г").join(", ")} · ${fmt(totals(items).kcal)} ккал</div>
+        <label class="f"><span>Назва</span><input type="text" id="cb-name" value="${nm}"></label><button class="btn pri full" data-act="combo-save" data-meal="${m}">Зберегти</button>`; openSheet(); break; }
+    case "combo-save": { const m = el.dataset.meal, name = ($("#cb-name").value || "").trim(); if (!name) return toast("Вкажи назву");
+      const foods = day(curDay).foods.filter(x => x.meal === m).map(x => { const c = copyFood(x, m); delete c.id; delete c.meal; return c; });
+      save("combos", {items: [{id: uid(), name, foods}, ...combos().filter(c => c.name !== name)]}); toast("Страву збережено — шукай у «Додати» → «Страви»"); closeSheet(); break; }
+    case "combo-add": { const c = combos()[+el.dataset.i]; if (!c) break; setDay(d => { for (const x of c.foods) d.foods.push(copyFood(x, add.meal)); }); toast("Додано: " + c.name); closeSheet(); break; }
+    case "combo-del": { const i = +el.dataset.i, c = combos()[i]; if (!c) break; const items = combos().slice(); items.splice(i, 1); save("combos", {items}); drawAdd(); toast("Видалено: " + c.name); break; }
+    case "rec-new": add.mode = "rec"; add.rec = {name: "", items: [], q: "", total: ""}; drawAdd(); break;
+    case "rec-pick": { const r = add.rec, f = r._res[+el.dataset.i]; if (!f) break; r.items.push({name: f.name, g: f.unit ? f.unit.g : 100, per: {kcal: f.kcal, p: f.p, f: f.f, c: f.c, ...(f.fb !== undefined ? {fb: f.fb} : {})}}); r.q = ""; drawAdd(); break; }
+    case "rec-del": add.rec.items.splice(+el.dataset.i, 1); drawAdd(); break;
+    case "rec-save": { const r = add.rec; r.name = ($("#rc-name").value || "").trim(); if (!r.name) return toast("Вкажи назву страви"); if (!r.items.length) return toast("Додай інгредієнти");
+      const x = recCalc(r); if (!x.W) return toast("Вкажи грами інгредієнтів");
+      const f = {name: r.name, ...x.per, unit: null, src: "own", recipe: {items: r.items.map(i => ({name: i.name, g: i.g})), total: num(r.total) || null}};
+      save("custom", {items: [f, ...customFoods().filter(c => c.name !== f.name)]}); toast("Рецепт збережено ✓"); add.mode = "base"; add.rec = null; add.pick = f; add.g = 300; drawAdd(); break; }
     case "bc-find": bcLookup(($("#bc-code").value || "").replace(/\D/g, "")); break;
     case "bc-label-manual": add.own = {bc: add.bc && add.bc.code, src: "own"}; add.mode = "own"; drawAdd(); break;
     case "edit-food": openEditFood(el.dataset.id); break;
@@ -1819,27 +2152,38 @@ document.addEventListener("click", async e => {
       for (const f of ["sets", "lo", "hi", "rest"]) if (num(x[f]) !== null) ch[f] = Math.round(num(x[f]));
       if (ch.lo && !ch.hi) ch.hi = Math.max(ch.lo, cur.hi); if (ch.hi && !ch.lo) ch.lo = Math.min(ch.hi, cur.lo);
       if (cur.custom) save("exlib", {items: exLib().map(e => e.id === x.id ? Object.assign({}, e, ch) : e)}); else savePlan(pl => { pl.edits[x.id] = Object.assign({}, pl.edits[x.id] || {}, ch); });
+      planLog(`🤖 Тренер: ${cur.name} — ${Object.entries(ch).map(([f, val]) => ({sets: "підходів", lo: "повторень від", hi: "до", rest: "відпочинок, с"})[f] + " " + val).join(", ")}`);
       markApplied("p" + v); break; }
     case "co-add": { const c = coachCur(); const x = c && c.add && c.add[+v]; if (!x) break; const lo = Math.max(1, Math.round(num(x.lo) || 8)), hi = Math.max(lo, Math.round(num(x.hi) || 12));
       const e = {id: "X" + uid(), n: "+", custom: true, name: String(x.name), mus: String(x.mus || ""), sets: Math.min(6, Math.max(1, Math.round(num(x.sets) || 2))), lo, hi, rir: "1–2", rest: Math.round(num(x.rest) || 75), kind: "iso"};
-      save("exlib", {items: [...exLib(), e]}); const dd = x.day === "B" ? "B" : "A"; savePlan(pl => { pl[dd].push(e.id); }); markApplied("a" + v); break; }
+      save("exlib", {items: [...exLib(), e]}); const dd = x.day === "B" ? "B" : "A"; savePlan(pl => { pl[dd].push(e.id); }); planLog(`🤖 Тренер додав до ${dayName(dd)}: ${e.name}`); markApplied("a" + v); break; }
     case "health": openHealth(curDay); break;
-    case "h-clip": {
-      let txt = null;
-      try { txt = await navigator.clipboard.readText(); } catch (e) {}
-      const r = txt ? parseHealth(txt) : null;
-      if (r) { applyHealth(r); break; }
-      $("#sheet").innerHTML = `<div class="grab"></div><h2>Вставити дані з годинника</h2><div class="small muted" style="margin-bottom:8px">${txt === null ? "Утримуй палець у полі нижче й натисни «Вставити»." : "У буфері немає даних з команди. Спершу запусти команду «Форма» в «Командах», потім повернися сюди."}</div>
-        <textarea id="h-paste2" placeholder="active=520;steps=8400;rhr=58;hrv=55"></textarea><button class="btn pri full" style="margin-top:10px" data-act="h-clip2">Записати</button>`;
-      openSheet(); break;
-    }
-    case "h-clip2": { const r = parseHealth($("#h-paste2").value); if (!r) return toast("Не знайшов даних у тексті"); closeSheet(); applyHealth(r); break; }
-    case "h-parse": { const r = parseHealth($("#h-paste").value); if (!r) return toast("Не знайшов даних у тексті"); for (const [k, x] of Object.entries(r)) { const el = $("#h-" + k); if (el) el.value = String(x); } toast("Дані розпізнано — натисни «Зберегти»"); break; }
+    case "h-sync": { const c = syncCfg(); if (!c.url) { openHealth(curDay); break; } toast("Оновлюю…"); const r = await syncHealth(true);
+      if (r && r.err) toast(SYNC_ERR[r.err] || SYNC_ERR.net); else { toast(r && r.n ? "Дані з годинника оновлено ✓" : "Нових даних немає — запусти команду «Форма»"); if ($("#sheet").classList.contains("open") && $("#h-active")) openHealth(curDay); else render(); } break; }
+    case "s-test": case "s-save": {
+      const url = ($("#s-url").value || "").trim().replace(/\/+$/, ""), token = ($("#s-token").value || "").trim();
+      if (a === "s-save" && !url && !token) { lsSet("forma-sync", "null"); toast("Автоперенесення вимкнено"); openHealth(curDay); break; }
+      if (!/^https:\/\/[^\s/]+\.[^\s]+$/.test(url) || !token) return toast("Впиши адресу (https://…) і пароль");
+      if (a === "s-save") { lsSet("forma-sync", JSON.stringify(Object.assign(syncCfg(), {url, token}))); }
+      try { const days = await syncFetch({url, token}, addDays(todayKey(), -14)); const n = Object.keys(days).length;
+        if (a === "s-save") { const m = mergeHealthDays(days); const c = syncCfg(); c.last = Date.now(); lsSet("forma-sync", JSON.stringify(c)); toast(n ? "Збережено ✓ Отримано днів: " + n : "Збережено ✓ Сервер працює, даних ще немає — запусти команду"); openHealth(curDay); }
+        else toast(n ? "Сервер працює ✓ Днів із даними: " + n : "Сервер працює ✓ Даних ще немає — запусти команду «Форма»");
+      } catch (err) { toast(SYNC_ERR[err && err.code] || SYNC_ERR.net); if (a === "s-save") openHealth(curDay); }
+      break; }
     case "h-save": { const hd = {}; for (const k of Object.keys(HF)) { const x = num($("#h-" + k).value); if (x !== null && x >= 0) hd[k] = x; }
-      setDay(d => { if (hd.weight) { d.weight = hd.weight; delete hd.weight; } if (Object.keys(hd).length) d.health = hd; else delete d.health; }); closeSheet(); break; }
+      setDay(d => { if (hd.weight) { d.weight = hd.weight; delete d.wsrc; delete hd.weight; } if (Object.keys(hd).length) d.health = hd; else delete d.health; }); closeSheet(); break; }
     case "rm": recMetric = v; lsSet("forma-rm", v); render(); break;
     case "hm": healthMetric = v; lsSet("forma-hm", v); render(); break;
+    case "set-type": { const [exId, i] = v.split("|"); const w = activeWorkout(); if (!w) break; const cur = ((((docs[w.key].sets || {})[exId]) || [])[+i] || {}).type || "";
+      const nx = {"": "w", w: "d", d: "f", f: ""}[cur]; const r = editSet([exId, +i], "type", nx || undefined, w); if (!nx) delete r.set.type; save(r.key, r.doc);
+      toast("Підхід " + (+i + 1) + ": " + SET_TYPES[nx].n); const y = window.scrollY; render(); window.scrollTo(0, y); break; }
+    case "plates": openPlates(v); break;
+    case "w-adj": { const w = activeWorkout(); if (!w) break; const d = docs[w.key]; if (v === "1") d.adj = true; else delete d.adj; save(w.key, d); render(); break; }
     case "set-rir": { const [exId, i, n] = v.split("|"); const r = editSet([exId, +i], "rir", +n); if (r) save(r.key, r.doc); const y = window.scrollY; render(); window.scrollTo(0, y); break; }
+    case "meas-save": { const rec = {k: todayKey()}; let n = 0; for (const k of Object.keys(MEAS)) { const x = num($("#ms-" + k).value); if (x && x > 10 && x < 250) { rec[k] = Math.round(x * 10) / 10; n++; } }
+      if (!n) return toast("Впиши хоча б один замір");
+      save("meas", {items: [...measAll().filter(x => x.k !== rec.k), rec]}); toast("Заміри збережено ✓"); render(); break; }
+    case "mm": measMetric = v; lsSet("forma-mm", v); render(); break;
     case "pm": progMetric = v; lsSet("forma-pm", v); render(); break;
     case "wk": weekOff = +v; render(); break;
     case "dl-start": save("deload", Object.assign({}, docs.deload || {}, {until: addDays(todayKey(), 6), last: todayKey(), snooze: null})); toast("Розвантаження на 7 днів"); render(); break;
@@ -1850,14 +2194,16 @@ document.addEventListener("click", async e => {
     case "plan": openPlan(); break;
     case "pl-day": planDay = v; openPlan(); break;
     case "pl-move": { const [i, dir] = v.split("|").map(Number); savePlan(p => { const a = p[planDay], j = i + dir; if (j >= 0 && j < a.length) [a[i], a[j]] = [a[j], a[i]]; }); openPlan(); break; }
-    case "pl-rm": savePlan(p => { p[planDay] = p[planDay].filter(x => x !== v); }); openPlan(); break;
+    case "pl-rm": planLog(`Прибрано з ${dayName(planDay)}: ${(findEx(v) || {}).name || v}`); savePlan(p => { p[planDay] = p[planDay].filter(x => x !== v); }); openPlan(); break;
     case "pl-add": openAddEx(planDay); break;
     case "pl-edit": openExEdit(v); break;
     case "pl-save": saveExEdit(v); break;
-    case "pl-unedit": savePlan(p => { delete p.edits[v]; }); openPlan(); break;
-    case "pl-reset": confirmSheet("Повернути програму з таблиці? Твої зміни порядку й параметрів зникнуть, історія тренувань залишиться.", "Повернути", () => { remove("plan"); if (docs.prog) remove("prog"); }); break;
+    case "pl-unedit": planLog(`${(baseEx(v) || {}).name || v}: параметри повернуто з таблиці`); savePlan(p => { delete p.edits[v]; }); openPlan(); break;
+    case "pl-reset": confirmSheet("Повернути програму з таблиці? Твої зміни порядку й параметрів зникнуть, історія тренувань залишиться.", "Повернути", () => { remove("plan"); if (docs.prog) remove("prog"); planLog("Програму повернуто до початкової з таблиці"); }); break;
     case "g-save": { const key = $("#g-key").value.trim(), model = $("#g-model").value.trim() || "gemini-2.5-flash";
-      lsSet("forma-gemini", JSON.stringify({key, model})); setupOwnAI(); toast(key ? "Збережено" : "Ключ видалено"); render(); break; }
+      lsSet("forma-gemini", JSON.stringify({key, model})); setupOwnAI();
+      if (key && !/^AIza[\w-]{20,}$/.test(key)) toast("Схоже, ключ неповний — він має починатися з «AIza»"); else toast(key ? "Збережено — ШІ увімкнено ✓" : "Ключ видалено");
+      if (add) drawAdd(); else if (el.dataset.close) closeSheet(); else render(); break; }
     case "g-test": lsSet("forma-gemini", JSON.stringify({key: $("#g-key").value.trim(), model: $("#g-model").value.trim() || "gemini-2.5-flash"})); setupOwnAI(); testGemini(); break;
     case "cal-m": { const [y, m] = calMonth.split("-").map(Number); const d = new Date(y, m - 1 + (+v), 1); calMonth = d.getFullYear() + "-" + pad(d.getMonth() + 1); render(); break; }
     case "cal-day": openDayInfo(el.dataset.k); break;
@@ -1896,8 +2242,15 @@ document.addEventListener("input", e => {
   const t = e.target;
   if (t.id === "fq") { add.q = t.value; $("#flist").innerHTML = foodList(); return; }
   if (t.id === "grams") { add.g = num(t.value) || 0; const v = portion(add.pick, add.g); $("#pv").innerHTML = pvHtml(v); $("#pfit").innerHTML = fitHtml(v); return; }
+  if (t.id === "pl-w" || t.id === "pl-b") { $("#pl-res").innerHTML = platesHtml(num($("#pl-w").value), num($("#pl-b").value) ?? 20); return; }
   if (t.id === "eg") { $("#epv").innerHTML = pvHtml(portion($("#sheet")._per, num(t.value) || 0)); return; }
   if (t.id === "ai-text") { add.ai.text = t.value; return; }
+  if (add && add.rec) {
+    if (t.id === "rc-q") { add.rec.q = t.value; $("#rc-res").innerHTML = recResHtml(); return; }
+    if (t.id === "rc-name") { add.rec.name = t.value; return; }
+    if (t.id === "rc-total") { add.rec.total = t.value; $("#rc-sum").innerHTML = recSumHtml(); return; }
+    if (t.dataset.rcG !== undefined) { add.rec.items[+t.dataset.rcG].g = num(t.value) || 0; $("#rc-sum").innerHTML = recSumHtml(); return; }
+  }
   if (t.dataset.aiG !== undefined) { const x = add.ai.items[+t.dataset.aiG]; x.g = num(t.value) || 0;
     const p = portion(x.per, x.g); t.previousElementSibling.querySelector(".tiny").textContent = `${fmt(p.kcal)} ккал · Б ${fmt(p.p, 1)} · Ж ${fmt(p.f, 1)} · В ${fmt(p.c, 1)}`;
     const sel = add.ai.items.filter(y => y.on), st = totals(sel.map(y => portion(y.per, y.g))); const b = document.querySelector('[data-act="ai-add"]'); if (b) b.textContent = "Додати вибране · " + fmt(st.kcal) + " ккал";
@@ -1909,7 +2262,9 @@ document.addEventListener("input", e => {
 });
 document.addEventListener("change", e => {
   const t = e.target;
-  if (t.dataset.in === "bodyweight") { const v = num(t.value); setDay(d => { if (v && v > 25 && v < 300) d.weight = v; else delete d.weight; }); return; }
+  if (t.dataset.in === "bodyweight") { const v = num(t.value); setDay(d => { delete d.wsrc; if (v && v > 25 && v < 300) d.weight = v; else delete d.weight; }); return; }
+  if (t.dataset.hshot && t.files && t.files.length) { const fs = [...t.files], k = t.dataset.hshot; t.value = ""; hShots(fs, k); return; }
+  if (t.id === "pl-b" && t.dataset.ex) { const b = num(t.value); if (b !== null && b >= 0) save("bars", Object.assign({}, docs.bars || {}, {[t.dataset.ex]: b})); return; }
   if (t.dataset.in === "progex") { progEx = t.value; lsSet("forma-ex", progEx); render(); return; }
   if (t.dataset.p) { setProfile(t.dataset.p, t.type === "checkbox" ? t.checked : t.value); return; }
   if (t.dataset.aiOn !== undefined) { add.ai.items[+t.dataset.aiOn].on = t.checked; drawAdd(); return; }
@@ -1983,7 +2338,8 @@ if (OWN) {
     if (r) { const apply = () => { if (!Store.loaded) return setTimeout(apply, 150); const k = "d-" + todayKey(), d = JSON.parse(JSON.stringify(day(todayKey()))); if (r.weight) { d.weight = r.weight; delete r.weight; } d.health = Object.assign({}, d.health || {}, r); save(k, d); tab = "food"; curDay = todayKey(); render(); toast("Дані з Apple Watch записано ✓"); }; apply(); } } } catch (e) {}
   try { if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {}); } catch (e) {}
   try { navigator.storage && navigator.storage.persist && navigator.storage.persist(); } catch (e) {}
-  addEventListener("online", softRender); addEventListener("offline", softRender);
+  addEventListener("online", () => { softRender(); syncHealth(); }); addEventListener("offline", softRender);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) syncHealth(); });
 } else (async () => {
   try {
     const s = await window.claude?.use?.("sample");
