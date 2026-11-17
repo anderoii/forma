@@ -21,17 +21,23 @@ export default {
     const token = req.headers.get("x-token") || url.searchParams.get("token");
     if (token !== env.TOKEN) return json({error: "unauthorized"}, 401);
 
-    if (url.pathname === "/health" && req.method === "POST") {
-      const txt = await req.text();
+    // Простий спосіб для команди iPhone — усе в адресі (GET):
+    // /health?token=ПАРОЛЬ&active=520&steps=8400&rhr=58
+    const viaQuery = url.pathname === "/health" && req.method === "GET" && FIELDS.some(k => url.searchParams.has(k));
+    if (url.pathname === "/health" && (req.method === "POST" || viaQuery)) {
       let body = {};
-      try { body = JSON.parse(txt); } catch (e) {
-        // формат команди: active=520;steps=8400;rhr=58;sleep=7,5
-        for (const m of txt.matchAll(/(active|steps|rhr|hrv|hr|sleep|wkcal|weight|date)\s*[=:]\s*([^;&\n]+)/gi)) body[m[1].toLowerCase()] = m[2].trim();
+      if (viaQuery) body = Object.fromEntries(url.searchParams);
+      else {
+        const txt = await req.text();
+        try { body = JSON.parse(txt); } catch (e) {
+          // формат команди: active=520;steps=8400;rhr=58;sleep=7,5
+          for (const m of txt.matchAll(/(active|steps|rhr|hrv|hr|sleep|wkcal|weight|date)\s*[=:]\s*([^;&\n]+)/gi)) body[m[1].toLowerCase()] = m[2].trim();
+        }
       }
       const date = /^\d{4}-\d{2}-\d{2}$/.test(String(body.date || "")) ? body.date : localDate(env.TZ || "Europe/Kyiv");
       const keep = {};
       for (const k of FIELDS) {
-        const v = clean(body[k]);
+        const v = clean(body[k], k === "steps");
         if (v !== null) keep[k] = v;
       }
       if (!Object.keys(keep).length) return json({error: "Немає даних. Очікую поля: " + FIELDS.join(", ")}, 400);
@@ -63,10 +69,11 @@ export default {
 };
 
 // "8 400" → 8400, "7,5" → 7.5, "520 kcal" → 520
-function clean(v) {
+function clean(v, intLike) {
   if (v === undefined || v === null || v === "") return null;
-  let t = String(v).replace(/[\s  ]/g, "");
-  t = /^\d{1,3}(,\d{3})+(\.\d+)?/.test(t) ? t.replace(/,/g, "") : t.replace(",", "."); // 8,400 (англ. роздільник тисяч) або 7,5
+  let t = String(v).replace(/[\s\u00a0\u202f]/g, "");
+  // кроки: 8,400 → 8400; решта: 154,483 або 7,5 → десяткова кома
+  t = intLike && /^\d{1,3}(,\d{3})+$/.test(t) ? t.replace(/,/g, "") : t.replace(",", ".");
   const s = t.match(/-?\d+(\.\d+)?/);
   if (!s) return null;
   const x = parseFloat(s[0]);
