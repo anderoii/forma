@@ -1903,6 +1903,8 @@ function openHealth(k, pre) {
   if (!$("#sheet").classList.contains("open")) openSheet();
 }
 /* ---------- автоперенесення: сервер ← команда iPhone, «Форма» забирає сама ---------- */
+// «https://x.workers.dev/health?token=…» → «https://x.workers.dev»
+function syncBase(u) { return String(u || "").trim().replace(/[?#].*$/, "").replace(/\/+$/, "").replace(/\/health$/i, "").replace(/\/+$/, ""); }
 function syncCfg() { try { return JSON.parse(lsGet("forma-sync") || "null") || {}; } catch (e) { return {}; } }
 function agoTxt(t) { const m = Math.round((Date.now() - t) / 60000); return m < 1 ? "щойно" : m < 60 ? m + " хв тому" : m < 1440 ? Math.round(m / 60) + " год тому" : daysTxt(Math.round(m / 1440)) + " тому"; }
 let syncBusy = false, syncAt = 0, syncTried = false;
@@ -1910,7 +1912,7 @@ async function syncFetch(cfg, since) {
   if (!navigator.onLine) throw {code: "offline"};
   const ctl = new AbortController(), tm = setTimeout(() => ctl.abort(), 12000);
   try {
-    const r = await fetch(cfg.url.replace(/\/+$/, "") + "/health?since=" + since, {headers: {"x-token": cfg.token}, signal: ctl.signal, cache: "no-store"});
+    const r = await fetch(syncBase(cfg.url) + "/health?since=" + since, {headers: {"x-token": cfg.token}, signal: ctl.signal, cache: "no-store"});
     if (r.status === 401) throw {code: "auth"};
     if (!r.ok) throw {code: "http", status: r.status};
     const j = await r.json(); if (!j || typeof j.days !== "object") throw {code: "format"};
@@ -2161,7 +2163,7 @@ document.addEventListener("click", async e => {
     case "h-sync": { const c = syncCfg(); if (!c.url) { openHealth(curDay); break; } toast("Оновлюю…"); const r = await syncHealth(true);
       if (r && r.err) toast(SYNC_ERR[r.err] || SYNC_ERR.net); else { toast(r && r.n ? "Дані з годинника оновлено ✓" : "Нових даних немає — запусти команду «Форма»"); if ($("#sheet").classList.contains("open") && $("#h-active")) openHealth(curDay); else render(); } break; }
     case "s-test": case "s-save": {
-      const url = ($("#s-url").value || "").trim().replace(/\/+$/, ""), token = ($("#s-token").value || "").trim();
+      const url = syncBase($("#s-url").value), token = ($("#s-token").value || "").trim();
       if (a === "s-save" && !url && !token) { lsSet("forma-sync", "null"); toast("Автоперенесення вимкнено"); openHealth(curDay); break; }
       if (!/^https:\/\/[^\s/]+\.[^\s]+$/.test(url) || !token) return toast("Впиши адресу (https://…) і пароль");
       if (a === "s-save") { lsSet("forma-sync", JSON.stringify(Object.assign(syncCfg(), {url, token}))); }
